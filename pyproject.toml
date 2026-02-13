@@ -1,0 +1,69 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "opendetect"
+dynamic = ["version"]
+description = "Open-source object detection for Python developers. Frictionless installation. Free for commercial use"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+  { name = "OpenDetect Contributors" }
+]
+keywords = ["object-detection", "onnx", "onnxruntime", "computer-vision", "opencv"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+  "numpy>=1.24",
+  "opencv-python>=4.8",
+  "onnxruntime>=1.17; extra != 'gpu'",
+]
+
+[project.optional-dependencies]
+cpu = [
+  "onnxruntime>=1.17",
+]
+gpu = [
+  "onnxruntime-gpu>=1.17",
+]
+benchmark = [
+  "onnx>=1.15",
+]
+dev = [
+  "ruff>=0.6",
+]
+
+[project.scripts]
+opendetect = "opendetect.cli.main:main"
+opendetect-infer = "opendetect.cli.inference:main"
+opendetect-benchmark = "opendetect.cli.benchmark:main"
+opendetect-models = "opendetect.cli.models:main"
+
+[project.urls]
+Homepage = "https://github.com/saifkhichi96/opendetect"
+Repository = "https://github.com/saifkhichi96/opendetect"
+Issues = "https://github.com/saifkhichi96/opendetect/issues"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = { attr = "opendetect._version.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["opendetect*"]
+
+[tool.setuptools.package-data]
+opendetect = ["py.typed"]
