@@ -29,8 +29,10 @@ class RFDETRModel:
             raise ValueError(f"Invalid input_size: {self.input_size}")
 
         self.model_path = (
-            Path(model_path) if model_path is not None else self.default_model_path()
+            Path(model_path) if model_path is not None else None
         )
+        if self.model_path is None:
+            raise ValueError("Model path must be provided")
         if not self.model_path.exists():
             raise FileNotFoundError(f"Model file does not exist: {self.model_path}")
 
@@ -51,20 +53,6 @@ class RFDETRModel:
         self.session = ort.InferenceSession(str(self.model_path), **session_kwargs)
         self.input_name = self.session.get_inputs()[0].name
         self._imagenet_inv_std = (1.0 / self.imagenet_std).astype(np.float32)
-
-    @classmethod
-    def default_model_path(cls) -> Path:
-        root = Path(__file__).resolve().parents[2]
-        candidates = [
-            root / "data" / "models" / "rfdetr" / "rfdetr-m-sim_576x576.onnx",
-            root / "data" / "models" / "rfdetr" / "rfdetr-m_576x576.onnx",
-            root / "data" / "models" / "inference_model.sim.onnx",
-            root / "onnx" / "inference_model.sim.onnx",
-        ]
-        for candidate in candidates:
-            if candidate.exists():
-                return candidate
-        return candidates[0]
 
     @classmethod
     def default_class_ids(cls) -> list[int] | None:

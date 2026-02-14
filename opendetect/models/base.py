@@ -14,9 +14,6 @@ class DetectorModel(Protocol):
     input_size: tuple[int, int]
 
     @classmethod
-    def default_model_path(cls) -> Path: ...
-
-    @classmethod
     def default_class_ids(cls) -> list[int] | None: ...
 
     @classmethod

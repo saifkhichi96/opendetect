@@ -115,13 +115,7 @@ class YOLOXModel:
         if self.model_path is None:
             raise ValueError("Model path must be provided")
         if not self.model_path.exists():
-            candidate_paths = ", ".join(
-                str(path) for path in self._model_path_candidates()
-            )
-            raise FileNotFoundError(
-                f"Model file does not exist: {self.model_path}. "
-                f"Provide --model explicitly or place a YOLOX ONNX model at one of: {candidate_paths}"
-            )
+            raise FileNotFoundError(f"Model file does not exist: {self.model_path}")
 
         self.threshold = float(threshold)
         self.num_select = int(num_select)
