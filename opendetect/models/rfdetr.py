@@ -56,7 +56,7 @@ class RFDETRModel:
 
     @classmethod
     def default_class_ids(cls) -> list[int] | None:
-        return [1]
+        return [0]
 
     @classmethod
     def default_input_size(cls) -> tuple[int, int]:
@@ -117,6 +117,9 @@ class RFDETRModel:
             raise ValueError("Batch size mismatch between outputs and target_sizes.")
 
         probs = self._sigmoid(out_logits)
+        # RF-DETR exports include a background class at index 0.
+        # Exclude it from ranking so class IDs match YOLOX-style 0-based foreground IDs.
+        probs[..., 0] = -1.0
         batch_size, _, num_classes = probs.shape
 
         flat_probs = probs.reshape(batch_size, -1)
@@ -143,6 +146,7 @@ class RFDETRModel:
 
         topk_boxes = topk_indices // num_classes
         labels = topk_indices % num_classes
+        mapped_labels = labels - 1
 
         boxes = self._box_cxcywh_to_xyxy(out_bbox)
         batch_indices = np.arange(batch_size)[:, None]
@@ -156,14 +160,15 @@ class RFDETRModel:
         detections = []
         for i in range(batch_size):
             keep = scores[i] > self.threshold
+            keep &= labels[i] > 0
             if self.class_ids_np is not None:
-                keep &= np.isin(labels[i], self.class_ids_np)
+                keep &= np.isin(mapped_labels[i], self.class_ids_np)
 
             detections.append(
                 {
                     "xyxy": boxes[i][keep].astype(np.float32),
                     "confidence": scores[i][keep].astype(np.float32),
-                    "class_id": labels[i][keep].astype(np.int64),
+                    "class_id": mapped_labels[i][keep].astype(np.int64),
                 }
             )
 
