@@ -3,20 +3,6 @@ from __future__ import annotations
 from .models import default_input_size
 
 
-def parse_providers(raw: str | None) -> list[str] | None:
-    if raw is None:
-        return None
-    providers = [value.strip() for value in raw.split(",") if value.strip()]
-    return providers or None
-
-
-def parse_required_providers(raw: str) -> list[str]:
-    providers = [value.strip() for value in raw.split(",") if value.strip()]
-    if not providers:
-        raise ValueError("At least one execution provider is required.")
-    return providers
-
-
 def parse_input_size(raw: str | None, model_name: str) -> tuple[int, int]:
     if raw is None:
         return default_input_size(model_name)

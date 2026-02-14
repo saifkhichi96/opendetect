@@ -3,13 +3,11 @@ import argparse
 import time
 
 import numpy as np
-import onnxruntime as ort
 
 from opendetect import Detector
 from opendetect._cli_utils import (
     parse_class_names,
     parse_optional_input_size,
-    parse_required_providers,
 )
 from opendetect.models import available_models
 from opendetect.models.base import DetectorModel
@@ -410,10 +408,19 @@ def main() -> None:
         help="List available classes for the selected model and exit.",
     )
     parser.add_argument(
-        "--providers",
-        type=str,
-        default="CPUExecutionProvider",
-        help="Comma-separated ORT providers.",
+        "--no-hardware-acceleration",
+        action="store_true",
+        help="Disable hardware acceleration and force CPUExecutionProvider.",
+    )
+    parser.add_argument(
+        "--tensor-rt",
+        action="store_true",
+        help="Enable TensorRT providers when available.",
+    )
+    parser.add_argument(
+        "--no-mixed-precision",
+        action="store_true",
+        help="Disable mixed precision provider optimizations.",
     )
     parser.add_argument(
         "--dummy-height", type=int, default=720, help="Dummy frame height."
@@ -444,23 +451,14 @@ def main() -> None:
     if args.max_frames is not None and args.max_frames <= 0:
         raise ValueError("--max-frames must be > 0 when provided.")
 
-    providers = parse_required_providers(args.providers)
-    available_providers = set(ort.get_available_providers())
-    missing_providers = [
-        provider for provider in providers if provider not in available_providers
-    ]
-    if missing_providers:
-        raise ValueError(
-            f"Requested providers not available: {missing_providers}. "
-            f"Available providers: {sorted(available_providers)}"
-        )
-
     model_load_start = time.perf_counter()
     detector = Detector(
         model=args.model_id or args.model_name,
         model_path=args.model,
         input_size=parse_optional_input_size(args.input_size),
-        providers=providers,
+        hardware_acceleration=not args.no_hardware_acceleration,
+        tensor_rt=args.tensor_rt,
+        mixed_precision=not args.no_mixed_precision,
         threshold=args.threshold,
         num_select=args.num_select,
         class_ids=None,
@@ -539,7 +537,9 @@ def main() -> None:
         print(f"resolved model id        {detector.info.model_id}")
     print(f"model path               {model.model_path}")
     print(f"model input size         {model.input_size[0]}x{model.input_size[1]}")
-    print(f"providers (requested)    {providers}")
+    print(f"hardware acceleration    {not args.no_hardware_acceleration}")
+    print(f"tensor rt                {args.tensor_rt}")
+    print(f"mixed precision          {not args.no_mixed_precision}")
     if active_providers is not None:
         print(f"providers (active)       {active_providers}")
     print(

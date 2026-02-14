@@ -7,7 +7,7 @@ Open-source object detection for Python developers. Frictionless installation. F
 ## Why OpenDetect
 
 - Consistent API across multiple model families (`rfdetr`, `yolox`)
-- ONNX Runtime inference (CPU or GPU providers)
+- ONNX Runtime inference with automatic provider selection
 - OpenCV/NumPy-first I/O and preprocessing
 - Built-in model registry with known input sizes and download URLs
 - Optional auto-download from Hugging Face model artifacts
@@ -110,7 +110,7 @@ Set `OPENDETECT_CACHE_DIR` to override.
 ```bash
 opendetect --version
 opendetect-infer --image data/images/crowd.png --model-id rfdetr-m --output output.png
-opendetect-infer --video input.mp4 --model-id yolox-s --providers CUDAExecutionProvider,CPUExecutionProvider --output output.mp4
+opendetect-infer --video input.mp4 --model-id yolox-s --tensor-rt --output output.mp4
 # list supported classes for a model
 opendetect-infer --model-id yolox-s --list-classes
 # filter by class names instead of IDs
@@ -120,7 +120,7 @@ opendetect-infer --image data/images/crowd.png --model-id yolox-s --class-names 
 ### Benchmark
 
 ```bash
-opendetect-benchmark --model-id yolox-m --mode dummy --warmup 20 --iterations 200 --providers CUDAExecutionProvider
+opendetect-benchmark --model-id yolox-m --mode dummy --warmup 20 --iterations 200 --tensor-rt
 opendetect-benchmark --model-id rfdetr-l --mode video --video input.mp4 --max-frames 500
 ```
 

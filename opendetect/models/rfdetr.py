@@ -4,9 +4,8 @@ from pathlib import Path
 
 import cv2
 import numpy as np
-import onnxruntime as ort
 
-from .base import Detections
+from .base import Detections, create_ort_session
 from ._viz import class_name_for_id, color_for_class_id, draw_box_with_label
 
 
@@ -23,15 +22,15 @@ class RFDETRModel:
         threshold: float = 0.3,
         num_select: int = 300,
         class_ids: list[int] | None = None,
-        providers: list[str] | None = None,
+        hardware_acceleration: bool = True,
+        tensor_rt: bool = False,
+        mixed_precision: bool = True,
     ) -> None:
         self.input_size = (int(input_size[0]), int(input_size[1]))
         if self.input_size[0] <= 0 or self.input_size[1] <= 0:
             raise ValueError(f"Invalid input_size: {self.input_size}")
 
-        self.model_path = (
-            Path(model_path) if model_path is not None else None
-        )
+        self.model_path = Path(model_path) if model_path is not None else None
         if self.model_path is None:
             raise ValueError("Model path must be provided")
         if not self.model_path.exists():
@@ -48,10 +47,12 @@ class RFDETRModel:
             else None
         )
 
-        session_kwargs: dict[str, object] = {}
-        if providers is not None:
-            session_kwargs["providers"] = providers
-        self.session = ort.InferenceSession(str(self.model_path), **session_kwargs)
+        self.session = create_ort_session(
+            self.model_path,
+            hardware_acceleration=hardware_acceleration,
+            tensor_rt=tensor_rt,
+            mixed_precision=mixed_precision,
+        )
         self.input_name = self.session.get_inputs()[0].name
         self._imagenet_inv_std = (1.0 / self.imagenet_std).astype(np.float32)
         self.class_names = self._resolve_class_names()
@@ -84,9 +85,7 @@ class RFDETRModel:
             num_foreground = int(shape[2]) - 1
             if num_foreground <= len(base_names):
                 return list(base_names[:num_foreground])
-            extra = [
-                f"class_{idx}" for idx in range(len(base_names), num_foreground)
-            ]
+            extra = [f"class_{idx}" for idx in range(len(base_names), num_foreground)]
             return list(base_names) + extra
 
         return list(base_names)

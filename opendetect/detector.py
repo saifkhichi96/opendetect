@@ -20,7 +20,9 @@ class Detector:
         *,
         model_path: str | Path | None = None,
         input_size: tuple[int, int] | None = None,
-        providers: list[str] | None = None,
+        hardware_acceleration: bool = True,
+        tensor_rt: bool = False,
+        mixed_precision: bool = True,
         threshold: float = 0.3,
         num_select: int = 300,
         class_ids: list[int] | None = None,
@@ -72,7 +74,9 @@ class Detector:
             threshold=threshold,
             num_select=num_select,
             class_ids=class_ids,
-            providers=providers,
+            hardware_acceleration=hardware_acceleration,
+            tensor_rt=tensor_rt,
+            mixed_precision=mixed_precision,
         )
 
         resolved_id = spec.model_id if spec is not None else None

@@ -7,7 +7,6 @@ from opendetect import Detector
 from opendetect._cli_utils import (
     parse_class_names,
     parse_optional_input_size,
-    parse_providers,
 )
 from opendetect.models import available_models
 from opendetect.registry import list_model_ids
@@ -54,10 +53,19 @@ def main() -> None:
         help="Model input size as HxW (for example: 576x576).",
     )
     parser.add_argument(
-        "--providers",
-        type=str,
-        default=None,
-        help="Comma-separated ORT providers, e.g. CUDAExecutionProvider,CPUExecutionProvider.",
+        "--no-hardware-acceleration",
+        action="store_true",
+        help="Disable hardware acceleration and force CPUExecutionProvider.",
+    )
+    parser.add_argument(
+        "--tensor-rt",
+        action="store_true",
+        help="Enable TensorRT providers when available.",
+    )
+    parser.add_argument(
+        "--no-mixed-precision",
+        action="store_true",
+        help="Disable mixed precision provider optimizations.",
     )
     parser.add_argument(
         "--output",
@@ -107,13 +115,17 @@ def main() -> None:
     args = parser.parse_args()
 
     if not args.list_classes and args.image is None and args.video is None:
-        parser.error("one of --image or --video is required unless --list-classes is set")
+        parser.error(
+            "one of --image or --video is required unless --list-classes is set"
+        )
 
     detector = Detector(
         model=args.model_id or args.model_name,
         model_path=args.model,
         input_size=parse_optional_input_size(args.input_size),
-        providers=parse_providers(args.providers),
+        hardware_acceleration=not args.no_hardware_acceleration,
+        tensor_rt=args.tensor_rt,
+        mixed_precision=not args.no_mixed_precision,
         threshold=args.threshold,
         num_select=args.num_select,
         class_ids=None,
