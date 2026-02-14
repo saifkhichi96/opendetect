@@ -69,6 +69,12 @@ detector.infer_image_file("input.jpg", output_path="output.jpg")
 detector.infer_video_file("input.mp4", output_path="output.mp4", max_frames=300)
 ```
 
+Class IDs are normalized across models:
+
+- `0`-based foreground class IDs by default
+- RF-DETR background index `0` is ignored internally
+- If `--classes` (or `class_ids`) is omitted, all foreground classes are kept
+
 ## Model Registry
 
 OpenDetect includes an internal model registry with metadata per model:
@@ -105,6 +111,10 @@ Set `OPENDETECT_CACHE_DIR` to override.
 opendetect --version
 opendetect-infer --image data/images/crowd.png --model-id rfdetr-m --output output.png
 opendetect-infer --video input.mp4 --model-id yolox-s --providers CUDAExecutionProvider,CPUExecutionProvider --output output.mp4
+# list supported classes for a model
+opendetect-infer --model-id yolox-s --list-classes
+# filter by class names instead of IDs
+opendetect-infer --image data/images/crowd.png --model-id yolox-s --class-names person,bicycle
 ```
 
 ### Benchmark

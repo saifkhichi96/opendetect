@@ -49,3 +49,16 @@ def parse_optional_input_size(raw: str | None) -> tuple[int, int] | None:
     if height <= 0 or width <= 0:
         raise ValueError(f"Invalid --input-size '{raw}'. Values must be > 0.")
     return height, width
+
+
+def parse_class_names(raw: list[str] | None) -> list[str]:
+    if raw is None:
+        return []
+
+    names: list[str] = []
+    for value in raw:
+        for part in value.split(","):
+            name = part.strip()
+            if name:
+                names.append(name)
+    return names

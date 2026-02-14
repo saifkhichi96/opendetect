@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import difflib
 from pathlib import Path
 
 import cv2
@@ -87,12 +88,99 @@ class Detector:
     def backend(self) -> DetectorModel:
         return self._backend
 
+    @property
+    def class_names(self) -> list[str] | None:
+        names = getattr(self._backend, "class_names", None)
+        if names is not None:
+            return [str(name) for name in names]
+
+        default_names_fn = getattr(self._backend, "default_class_names", None)
+        if callable(default_names_fn):
+            fallback = default_names_fn()
+            if fallback is not None:
+                return [str(name) for name in fallback]
+
+        return None
+
     @staticmethod
     def _try_get_spec(model: str) -> ModelSpec | None:
         try:
             return get_model_spec(model)
         except ValueError:
             return None
+
+    @staticmethod
+    def _normalize_class_name(name: str) -> str:
+        normalized = name.strip().lower().replace("-", " ").replace("_", " ")
+        normalized = " ".join(normalized.split())
+        return normalized.replace(" ", "")
+
+    def resolve_class_ids_from_names(self, names: list[str]) -> list[int]:
+        class_names = self.class_names
+        if class_names is None:
+            raise ValueError("Class names are not available for this model.")
+
+        normalized_to_id: dict[str, int] = {}
+        for class_id, class_name in enumerate(class_names):
+            normalized_to_id[self._normalize_class_name(class_name)] = class_id
+
+        resolved: list[int] = []
+        unknown: list[str] = []
+        for name in names:
+            key = self._normalize_class_name(name)
+            class_id = normalized_to_id.get(key)
+            if class_id is None:
+                unknown.append(name)
+                continue
+            if class_id not in resolved:
+                resolved.append(class_id)
+
+        if unknown:
+            known_names = list(class_names)
+            hints = []
+            for value in unknown:
+                match = difflib.get_close_matches(value, known_names, n=1, cutoff=0.6)
+                if match:
+                    hints.append(f"{value!r} -> {match[0]!r}")
+            hint_text = f" Suggestions: {', '.join(hints)}." if hints else ""
+            raise ValueError(
+                f"Unknown class name(s): {', '.join(repr(item) for item in unknown)}.{hint_text}"
+            )
+
+        return resolved
+
+    def set_class_filter(self, class_ids: list[int] | None) -> list[int] | None:
+        resolved = None
+        if class_ids:
+            resolved = []
+            for class_id in class_ids:
+                class_id_int = int(class_id)
+                if class_id_int not in resolved:
+                    resolved.append(class_id_int)
+
+            class_names = self.class_names
+            if class_names is not None:
+                max_id = len(class_names) - 1
+                invalid = [idx for idx in resolved if idx < 0 or idx > max_id]
+                if invalid:
+                    raise ValueError(
+                        f"Class IDs out of range: {invalid}. Valid range: 0..{max_id}."
+                    )
+
+        # Both current backends support dynamic class filter updates.
+        self._backend.class_ids = resolved if resolved else None
+        self._backend.class_ids_np = (
+            np.asarray(self._backend.class_ids, dtype=np.int64)
+            if self._backend.class_ids is not None
+            else None
+        )
+        return self._backend.class_ids
+
+    def list_classes(self) -> list[tuple[int, str]]:
+        class_names = self.class_names
+        if class_names is None:
+            return []
+        return list(enumerate(class_names))
 
     @staticmethod
     def _validate_image(image: np.ndarray) -> None:

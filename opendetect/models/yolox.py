@@ -8,6 +8,7 @@ import onnxruntime as ort
 
 from ._nms import multiclass_nms
 from .base import Detections
+from ._viz import class_name_for_id, color_for_class_id, draw_box_with_label
 
 
 class YOLOXModel:
@@ -135,14 +136,36 @@ class YOLOXModel:
         self.session = ort.InferenceSession(str(self.model_path), **session_kwargs)
         self.input_name = self.session.get_inputs()[0].name
         self._decode_grids, self._decode_strides = self._build_decode_grids()
+        self.class_names = self._resolve_class_names()
 
     @classmethod
     def default_class_ids(cls) -> list[int] | None:
-        return [0]  # person
+        return None
+
+    @classmethod
+    def default_class_names(cls) -> list[str] | None:
+        return list(cls.coco_classes)
 
     @classmethod
     def default_input_size(cls) -> tuple[int, int]:
         return (640, 640)
+
+    def _resolve_class_names(self) -> list[str] | None:
+        base_names = self.default_class_names()
+        if base_names is None:
+            return None
+
+        # Raw YOLOX exports commonly produce [N, num_preds, 5 + num_classes].
+        for output in self.session.get_outputs():
+            shape = output.shape
+            if len(shape) == 3 and isinstance(shape[2], int) and int(shape[2]) > 5:
+                num_classes = int(shape[2]) - 5
+                if num_classes <= len(base_names):
+                    return list(base_names[:num_classes])
+                extra = [f"class_{idx}" for idx in range(len(base_names), num_classes)]
+                return list(base_names) + extra
+
+        return list(base_names)
 
     def _build_decode_grids(self) -> tuple[np.ndarray, np.ndarray]:
         strides = (8, 16, 32)
@@ -400,20 +423,17 @@ class YOLOXModel:
             detections["xyxy"],
             detections["confidence"],
         ):
+            class_id_int = int(class_id)
             x1, y1, x2, y2 = box
             pt1 = (int(round(float(x1))), int(round(float(y1))))
             pt2 = (int(round(float(x2))), int(round(float(y2))))
-            cv2.rectangle(frame_bgr, pt1, pt2, (0, 0, 255), 2)
-            label = f"C{int(class_id)} {float(score):.2f}"
-            text_origin = (pt1[0], max(0, pt1[1] - 4))
-            cv2.putText(
+            label_name = class_name_for_id(class_id_int, self.class_names)
+            label = f"{label_name} {float(score):.2f}"
+            draw_box_with_label(
                 frame_bgr,
+                pt1,
+                pt2,
+                color_for_class_id(class_id_int),
                 label,
-                text_origin,
-                cv2.FONT_HERSHEY_SIMPLEX,
-                0.5,
-                (0, 0, 255),
-                1,
-                cv2.LINE_AA,
             )
         return frame_bgr

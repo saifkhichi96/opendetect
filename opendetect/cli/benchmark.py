@@ -6,7 +6,11 @@ import numpy as np
 import onnxruntime as ort
 
 from opendetect import Detector
-from opendetect._cli_utils import parse_optional_input_size, parse_required_providers
+from opendetect._cli_utils import (
+    parse_class_names,
+    parse_optional_input_size,
+    parse_required_providers,
+)
 from opendetect.models import available_models
 from opendetect.models.base import DetectorModel
 from opendetect.registry import list_model_ids
@@ -391,7 +395,19 @@ def main() -> None:
         type=int,
         nargs="*",
         default=None,
-        help="Class IDs to keep. Omit to use model-specific defaults.",
+        help="0-based class IDs to keep (shared across models). Omit to keep all classes.",
+    )
+    parser.add_argument(
+        "--class-names",
+        type=str,
+        nargs="*",
+        default=None,
+        help="Class names to keep (case-insensitive). Accepts space- or comma-separated names.",
+    )
+    parser.add_argument(
+        "--list-classes",
+        action="store_true",
+        help="List available classes for the selected model and exit.",
     )
     parser.add_argument(
         "--providers",
@@ -421,7 +437,7 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    if args.mode == "video" and args.video is None:
+    if not args.list_classes and args.mode == "video" and args.video is None:
         raise ValueError("--video is required when --mode video is selected.")
     if args.warmup < 0 or args.iterations <= 0:
         raise ValueError("Use --warmup >= 0 and --iterations > 0.")
@@ -447,11 +463,30 @@ def main() -> None:
         providers=providers,
         threshold=args.threshold,
         num_select=args.num_select,
-        class_ids=args.classes,
+        class_ids=None,
         auto_download=not args.no_download,
         cache_dir=args.cache_dir,
         show_download_progress=True,
     )
+
+    if args.list_classes:
+        classes = detector.list_classes()
+        if not classes:
+            print("No class names available for this model.")
+            return
+        for class_id, class_name in classes:
+            print(f"{class_id:3d}: {class_name}")
+        return
+
+    selected_ids = list(args.classes or [])
+    selected_names = parse_class_names(args.class_names)
+    try:
+        if selected_names:
+            selected_ids.extend(detector.resolve_class_ids_from_names(selected_names))
+        detector.set_class_filter(selected_ids if selected_ids else None)
+    except ValueError as exc:
+        parser.error(str(exc))
+
     model = detector.backend
     model_load_end = time.perf_counter()
     model_load_ms = (model_load_end - model_load_start) * 1000.0
