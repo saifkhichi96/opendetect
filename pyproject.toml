@@ -39,9 +39,6 @@ cpu = [
 gpu = [
   "onnxruntime-gpu>=1.17",
 ]
-benchmark = [
-  "onnx>=1.15",
-]
 dev = [
   "ruff>=0.6",
 ]

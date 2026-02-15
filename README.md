@@ -31,15 +31,10 @@ pip install "opendetect[gpu]"
 
 Core runtime dependencies are:
 
+- `onnx`
 - `onnxruntime`
 - `opencv-python`
 - `numpy`
-
-Optional extras:
-
-```bash
-pip install "opendetect[benchmark]"   # ONNX stats/FLOPs tooling
-```
 
 ## Quickstart (Python)
 
