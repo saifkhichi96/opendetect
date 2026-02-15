@@ -63,9 +63,9 @@ def main() -> None:
         help="Enable TensorRT providers when available.",
     )
     parser.add_argument(
-        "--no-mixed-precision",
+        "--mixed-precision",
         action="store_true",
-        help="Disable mixed precision provider optimizations.",
+        help="Enable mixed precision (FP16) when supported by the model and hardware. Can improve performance on compatible GPUs.",
     )
     parser.add_argument(
         "--output",
@@ -125,7 +125,7 @@ def main() -> None:
         input_size=parse_optional_input_size(args.input_size),
         hardware_acceleration=not args.no_hardware_acceleration,
         tensor_rt=args.tensor_rt,
-        mixed_precision=not args.no_mixed_precision,
+        mixed_precision=args.mixed_precision,
         threshold=args.threshold,
         num_select=args.num_select,
         class_ids=None,

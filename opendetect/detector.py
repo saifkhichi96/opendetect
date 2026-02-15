@@ -22,7 +22,7 @@ class Detector:
         input_size: tuple[int, int] | None = None,
         hardware_acceleration: bool = True,
         tensor_rt: bool = False,
-        mixed_precision: bool = True,
+        mixed_precision: bool = False,
         threshold: float = 0.3,
         num_select: int = 300,
         class_ids: list[int] | None = None,

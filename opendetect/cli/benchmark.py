@@ -418,9 +418,9 @@ def main() -> None:
         help="Enable TensorRT providers when available.",
     )
     parser.add_argument(
-        "--no-mixed-precision",
+        "--mixed-precision",
         action="store_true",
-        help="Disable mixed precision provider optimizations.",
+        help="Enable mixed precision (FP16) when supported by the model and hardware. Can improve performance on compatible GPUs.",
     )
     parser.add_argument(
         "--dummy-height", type=int, default=720, help="Dummy frame height."
@@ -458,7 +458,7 @@ def main() -> None:
         input_size=parse_optional_input_size(args.input_size),
         hardware_acceleration=not args.no_hardware_acceleration,
         tensor_rt=args.tensor_rt,
-        mixed_precision=not args.no_mixed_precision,
+        mixed_precision=args.mixed_precision,
         threshold=args.threshold,
         num_select=args.num_select,
         class_ids=None,
@@ -539,7 +539,7 @@ def main() -> None:
     print(f"model input size         {model.input_size[0]}x{model.input_size[1]}")
     print(f"hardware acceleration    {not args.no_hardware_acceleration}")
     print(f"tensor rt                {args.tensor_rt}")
-    print(f"mixed precision          {not args.no_mixed_precision}")
+    print(f"mixed precision          {args.mixed_precision}")
     if active_providers is not None:
         print(f"providers (active)       {active_providers}")
     print(
