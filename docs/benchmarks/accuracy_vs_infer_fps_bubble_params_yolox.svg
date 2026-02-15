@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1750" height="860" viewBox="0 0 1750 860" role="img" aria-label="Accuracy vs Inference FPS (YOLOX, Bubble size = Params (M))">
+<style>
+text{font-family:Arial,Helvetica,sans-serif;fill:#222}
+.title{font-size:28px;font-weight:700}
+.axis{font-size:15px}
+.tick{font-size:13px;fill:#444}
+.legend{font-size:14px}
+.subtle{font-size:12px;fill:#555}
+</style>
+<rect x="0" y="0" width="1750" height="860" fill="#ffffff"/>
+<text class="title" x="875.0" y="44" text-anchor="middle">Accuracy vs Inference FPS (YOLOX, Bubble size = Params (M))</text>
+<text class="subtle" x="875.0" y="68" text-anchor="middle">Shape = runtime, stroke = family, fill = model variant, size = Params (M), dashed lines connect same runtime, solid lines are Pareto frontiers</text>
+<line x1="90" y1="770" x2="1130" y2="770" stroke="#222" stroke-width="1.5"/>
+<line x1="90" y1="90" x2="90" y2="770" stroke="#222" stroke-width="1.5"/>
+<line x1="105.71" y1="90" x2="105.71" y2="770" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="105.71" y="792" text-anchor="middle">3</text>
+<line x1="196.06" y1="90" x2="196.06" y2="770" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="196.06" y="792" text-anchor="middle">5</text>
+<line x1="318.66" y1="90" x2="318.66" y2="770" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="318.66" y="792" text-anchor="middle">10</text>
+<line x1="441.26" y1="90" x2="441.26" y2="770" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="441.26" y="792" text-anchor="middle">20</text>
+<line x1="603.33" y1="90" x2="603.33" y2="770" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="603.33" y="792" text-anchor="middle">50</text>
+<line x1="725.92" y1="90" x2="725.92" y2="770" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="725.92" y="792" text-anchor="middle">100</text>
+<line x1="848.52" y1="90" x2="848.52" y2="770" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="848.52" y="792" text-anchor="middle">200</text>
+<line x1="1010.59" y1="90" x2="1010.59" y2="770" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="1010.59" y="792" text-anchor="middle">500</text>
+<line x1="90" y1="770.00" x2="1130" y2="770.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="775.00" text-anchor="end">30.1</text>
+<line x1="90" y1="685.00" x2="1130" y2="685.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="690.00" text-anchor="end">33.0</text>
+<line x1="90" y1="600.00" x2="1130" y2="600.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="605.00" text-anchor="end">36.0</text>
+<line x1="90" y1="515.00" x2="1130" y2="515.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="520.00" text-anchor="end">39.0</text>
+<line x1="90" y1="430.00" x2="1130" y2="430.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="435.00" text-anchor="end">41.9</text>
+<line x1="90" y1="345.00" x2="1130" y2="345.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="350.00" text-anchor="end">44.9</text>
+<line x1="90" y1="260.00" x2="1130" y2="260.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="265.00" text-anchor="end">47.9</text>
+<line x1="90" y1="175.00" x2="1130" y2="175.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="180.00" text-anchor="end">50.9</text>
+<line x1="90" y1="90.00" x2="1130" y2="90.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="95.00" text-anchor="end">53.8</text>
+<text class="axis" x="610.00" y="836" text-anchor="middle">Inference FPS (log scale)</text>
+<text class="axis" transform="translate(26,430.00) rotate(-90)" text-anchor="middle">COCO mAP</text>
+<polyline points="626.66,691.54 422.62,471.45 283.34,288.51 195.00,208.48 108.64,168.46" fill="none" stroke="#0072B2" stroke-width="1.6" stroke-opacity="0.45" stroke-dasharray="5 4" />
+<polyline points="788.68,691.54 682.52,471.45 609.34,288.51 546.74,208.48 463.89,168.46" fill="none" stroke="#E69F00" stroke-width="1.6" stroke-opacity="0.45" stroke-dasharray="5 4" />
+<polyline points="854.17,691.54 740.11,471.45 664.77,288.51 591.55,208.48 506.31,168.46" fill="none" stroke="#009E73" stroke-width="1.6" stroke-opacity="0.45" stroke-dasharray="5 4" />
+<polyline points="108.64,168.46 195.00,208.48 283.34,288.51 422.62,471.45 626.66,691.54" fill="none" stroke="#0072B2" stroke-width="2.2" stroke-opacity="0.95" />
+<polyline points="463.89,168.46 546.74,208.48 609.34,288.51 682.52,471.45 788.68,691.54" fill="none" stroke="#E69F00" stroke-width="2.2" stroke-opacity="0.95" />
+<polyline points="506.31,168.46 591.55,208.48 664.77,288.51 740.11,471.45 854.17,691.54" fill="none" stroke="#009E73" stroke-width="2.2" stroke-opacity="0.95" />
+<circle cx="626.66" cy="691.54" r="6.00" fill="#9467BD" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-tiny (YOLOX) | CPU | Infer FPS 57.05 | mAP 32.8 | Params 5.061M | FLOPs 6.413G</title>
+</circle>
+<circle cx="422.62" cy="471.45" r="10.09" fill="#8C564B" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-s (YOLOX) | CPU | Infer FPS 18.00 | mAP 40.5 | Params 8.990M | FLOPs 26.686G</title>
+</circle>
+<circle cx="283.34" cy="288.51" r="15.29" fill="#E377C2" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-m (YOLOX) | CPU | Infer FPS 8.19 | mAP 46.9 | Params 25.338M | FLOPs 73.530G</title>
+</circle>
+<circle cx="195.00" cy="208.48" r="20.46" fill="#17BECF" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-l (YOLOX) | CPU | Infer FPS 4.97 | mAP 49.7 | Params 54.208M | FLOPs 155.293G</title>
+</circle>
+<circle cx="108.64" cy="168.46" r="26.00" fill="#BCBD22" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-x (YOLOX) | CPU | Infer FPS 3.05 | mAP 51.1 | Params 99.055M | FLOPs 281.410G</title>
+</circle>
+<polygon points="794.00,696.86 783.36,696.86 783.36,686.22 794.00,686.22" fill="#9467BD" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-tiny (YOLOX) | CoreML | Infer FPS 142.59 | mAP 32.8 | Params 5.061M | FLOPs 6.413G</title>
+</polygon>
+<polygon points="691.46,480.39 673.58,480.39 673.58,462.50 691.46,462.50" fill="#8C564B" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-s (YOLOX) | CoreML | Infer FPS 78.24 | mAP 40.5 | Params 8.990M | FLOPs 26.686G</title>
+</polygon>
+<polygon points="622.89,302.06 595.79,302.06 595.79,274.96 622.89,274.96" fill="#E377C2" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-m (YOLOX) | CoreML | Infer FPS 51.73 | mAP 46.9 | Params 25.338M | FLOPs 73.530G</title>
+</polygon>
+<polygon points="564.87,226.61 528.61,226.61 528.61,190.34 564.87,190.34" fill="#17BECF" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-l (YOLOX) | CoreML | Infer FPS 36.31 | mAP 49.7 | Params 54.208M | FLOPs 155.293G</title>
+</polygon>
+<polygon points="486.93,191.50 440.85,191.50 440.85,145.42 486.93,145.42" fill="#BCBD22" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-x (YOLOX) | CoreML | Infer FPS 22.73 | mAP 51.1 | Params 99.055M | FLOPs 281.410G</title>
+</polygon>
+<polygon points="854.17,682.21 862.25,696.20 846.09,696.20" fill="#9467BD" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-tiny (YOLOX) | CUDA | Infer FPS 206.49 | mAP 32.8 | Params 5.061M | FLOPs 6.413G</title>
+</polygon>
+<polygon points="740.11,455.76 753.70,479.29 726.52,479.29" fill="#8C564B" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-s (YOLOX) | CUDA | Infer FPS 108.35 | mAP 40.5 | Params 8.990M | FLOPs 26.686G</title>
+</polygon>
+<polygon points="664.77,264.74 685.36,300.40 644.18,300.40" fill="#E377C2" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-m (YOLOX) | CUDA | Infer FPS 70.77 | mAP 46.9 | Params 25.338M | FLOPs 73.530G</title>
+</polygon>
+<polygon points="591.55,176.66 619.11,224.39 563.99,224.39" fill="#17BECF" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-l (YOLOX) | CUDA | Infer FPS 46.78 | mAP 49.7 | Params 54.208M | FLOPs 155.293G</title>
+</polygon>
+<polygon points="506.31,128.03 541.32,188.68 471.29,188.68" fill="#BCBD22" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-x (YOLOX) | CUDA | Infer FPS 28.89 | mAP 51.1 | Params 99.055M | FLOPs 281.410G</title>
+</polygon>
+<polygon points="1039.44,684.02 1046.96,691.54 1039.44,699.06 1031.92,691.54" fill="#9467BD" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-tiny (YOLOX) | TRT FP32 | Infer FPS 588.58 | mAP 32.8 | Params 5.061M | FLOPs 6.413G</title>
+</polygon>
+<polygon points="1121.37,684.64 1127.93,689.41 1125.42,697.12 1117.32,697.12 1114.81,689.41" fill="#9467BD" fill-opacity="0.72" stroke="#003366" stroke-width="1.80">
+<title>YOLOX-tiny (YOLOX) | TRT FP16 | Infer FPS 935.37 | mAP 32.8 | Params 5.061M | FLOPs 6.413G</title>
+</polygon>
+<text class="legend" x="1158" y="110">Device runtime (shape)</text>
+<circle cx="1168.00" cy="133.00" r="7.00" fill="#ececec" fill-opacity="1.00" stroke="#555555" stroke-width="1.20">
+</circle>
+<text class="legend" x="1182" y="139">CPU</text>
+<polygon points="1174.20,167.20 1161.80,167.20 1161.80,154.80 1174.20,154.80" fill="#ececec" fill-opacity="1.00" stroke="#555555" stroke-width="1.20">
+</polygon>
+<text class="legend" x="1182" y="167">CoreML</text>
+<polygon points="1168.00,178.11 1177.43,194.44 1158.57,194.44" fill="#ececec" fill-opacity="1.00" stroke="#555555" stroke-width="1.20">
+</polygon>
+<text class="legend" x="1182" y="195">CUDA</text>
+<polygon points="1168.00,208.23 1176.77,217.00 1168.00,225.77 1159.23,217.00" fill="#ececec" fill-opacity="1.00" stroke="#555555" stroke-width="1.20">
+</polygon>
+<text class="legend" x="1182" y="223">TRT FP32</text>
+<polygon points="1168.00,236.95 1175.65,242.51 1172.73,251.51 1163.27,251.51 1160.35,242.51" fill="#ececec" fill-opacity="1.00" stroke="#555555" stroke-width="1.20">
+</polygon>
+<text class="legend" x="1182" y="251">TRT FP16</text>
+<text class="legend" x="1158" y="284">Model family (stroke)</text>
+<circle cx="1168.00" cy="308.00" r="7.00" fill="#ffffff" fill-opacity="1.00" stroke="#003366" stroke-width="2.00">
+</circle>
+<text class="legend" x="1182" y="313">YOLOX</text>
+<text class="legend" x="1158" y="346">Model variant (fill)</text>
+<circle cx="1168.00" cy="368.00" r="7.00" fill="#9467BD" fill-opacity="0.95" stroke="#555555" stroke-width="1.00">
+</circle>
+<text class="legend" x="1182" y="373">YOLOX-tiny</text>
+<circle cx="1418.00" cy="368.00" r="7.00" fill="#8C564B" fill-opacity="0.95" stroke="#555555" stroke-width="1.00">
+</circle>
+<text class="legend" x="1432" y="373">YOLOX-s</text>
+<circle cx="1168.00" cy="394.00" r="7.00" fill="#E377C2" fill-opacity="0.95" stroke="#555555" stroke-width="1.00">
+</circle>
+<text class="legend" x="1182" y="399">YOLOX-m</text>
+<circle cx="1418.00" cy="394.00" r="7.00" fill="#17BECF" fill-opacity="0.95" stroke="#555555" stroke-width="1.00">
+</circle>
+<text class="legend" x="1432" y="399">YOLOX-l</text>
+<circle cx="1168.00" cy="420.00" r="7.00" fill="#BCBD22" fill-opacity="0.95" stroke="#555555" stroke-width="1.00">
+</circle>
+<text class="legend" x="1182" y="425">YOLOX-x</text>
+<text class="legend" x="1158" y="468">Bubble size (Params (M))</text>
+<circle cx="1192.00" cy="494.00" r="6.00" fill="#cfcfcf" fill-opacity="0.55" stroke="#777777" stroke-width="1.00">
+</circle>
+<text class="legend" x="1234" y="499.00">5.1</text>
+<circle cx="1192.00" cy="552.00" r="20.14" fill="#cfcfcf" fill-opacity="0.55" stroke="#777777" stroke-width="1.00">
+</circle>
+<text class="legend" x="1234" y="557.00">52.1</text>
+<circle cx="1192.00" cy="610.00" r="26.00" fill="#cfcfcf" fill-opacity="0.55" stroke="#777777" stroke-width="1.00">
+</circle>
+<text class="legend" x="1234" y="615.00">99.1</text>
+<text class="legend" x="1158" y="686">Line styles</text>
+<line x1="1158" y1="702" x2="1204" y2="702" stroke="#777" stroke-width="1.6" stroke-dasharray="5 4" />
+<text class="legend" x="1214" y="706">same-runtime variant links</text>
+<line x1="1158" y1="728" x2="1204" y2="728" stroke="#777" stroke-width="2.2" />
+<text class="legend" x="1214" y="732">Pareto frontier</text>
+<text class="subtle" x="1158" y="762">Points include CPU, CoreML, CUDA, TRT FP32, TRT FP16 runs</text>
+</svg>

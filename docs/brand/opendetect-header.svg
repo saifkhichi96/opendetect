@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="420" viewBox="0 0 1600 420" role="img" aria-label="OpenDetect header">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#12243f"/>
+    </linearGradient>
+    <linearGradient id="accentA" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00b4d8"/>
+      <stop offset="100%" stop-color="#48cae4"/>
+    </linearGradient>
+    <linearGradient id="accentB" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f72585"/>
+      <stop offset="100%" stop-color="#ff8fab"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="420" fill="url(#bg)"/>
+
+  <g opacity="0.22">
+    <circle cx="1440" cy="70" r="140" fill="#4cc9f0"/>
+    <circle cx="1240" cy="360" r="180" fill="#3a0ca3"/>
+    <circle cx="230" cy="20" r="120" fill="#7209b7"/>
+  </g>
+
+  <g opacity="0.65" stroke-width="3" fill="none">
+    <path d="M35 320 C 230 190, 340 330, 560 210 C 710 130, 860 235, 1080 155 C 1220 105, 1370 170, 1560 110" stroke="url(#accentA)"/>
+    <path d="M35 355 C 210 265, 340 380, 560 295 C 730 235, 860 325, 1080 260 C 1210 220, 1370 255, 1560 215" stroke="url(#accentB)"/>
+  </g>
+
+  <g fill="none" stroke="#7dd3fc" stroke-width="3" opacity="0.8">
+    <rect x="1110" y="55" width="70" height="42"/>
+    <rect x="1210" y="80" width="88" height="55"/>
+    <rect x="1330" y="55" width="105" height="70"/>
+    <rect x="1465" y="35" width="95" height="90"/>
+  </g>
+
+  <g fill="#ffffff">
+    <text x="90" y="165" style="font-family: Arial, Helvetica, sans-serif; font-size: 72px; font-weight: 700; letter-spacing: 1px;">OpenDetect</text>
+    <text x="92" y="216" style="font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-weight: 400; opacity: 0.9;">
+      Open-source-first object detection on CPU, CoreML, CUDA, and TensorRT
+    </text>
+    <text x="92" y="270" style="font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 400; opacity: 0.78;">
+      Transparent models · Consistent benchmarking · One API for production use
+    </text>
+  </g>
+
+  <g>
+    <rect x="92" y="304" width="268" height="34" rx="8" ry="8" fill="#0ea5e9" opacity="0.28"/>
+    <text x="106" y="327" style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; font-weight: 700; fill: #e0f2fe;">
+      Free for Commercial Use
+    </text>
+  </g>
+</svg>

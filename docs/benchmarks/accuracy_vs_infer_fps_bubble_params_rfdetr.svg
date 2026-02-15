@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1750" height="860" viewBox="0 0 1750 860" role="img" aria-label="Accuracy vs Inference FPS (RF-DETR, Bubble size = Params (M))">
+<style>
+text{font-family:Arial,Helvetica,sans-serif;fill:#222}
+.title{font-size:28px;font-weight:700}
+.axis{font-size:15px}
+.tick{font-size:13px;fill:#444}
+.legend{font-size:14px}
+.subtle{font-size:12px;fill:#555}
+</style>
+<rect x="0" y="0" width="1750" height="860" fill="#ffffff"/>
+<text class="title" x="875.0" y="44" text-anchor="middle">Accuracy vs Inference FPS (RF-DETR, Bubble size = Params (M))</text>
+<text class="subtle" x="875.0" y="68" text-anchor="middle">Shape = runtime, stroke = family, fill = model variant, size = Params (M), dashed lines connect same runtime, solid lines are Pareto frontiers</text>
+<line x1="90" y1="770" x2="1130" y2="770" stroke="#222" stroke-width="1.5"/>
+<line x1="90" y1="90" x2="90" y2="770" stroke="#222" stroke-width="1.5"/>
+<line x1="114.96" y1="90" x2="114.96" y2="770" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="114.96" y="792" text-anchor="middle">5</text>
+<line x1="257.40" y1="90" x2="257.40" y2="770" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="257.40" y="792" text-anchor="middle">10</text>
+<line x1="399.83" y1="90" x2="399.83" y2="770" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="399.83" y="792" text-anchor="middle">20</text>
+<line x1="588.12" y1="90" x2="588.12" y2="770" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="588.12" y="792" text-anchor="middle">50</text>
+<line x1="730.55" y1="90" x2="730.55" y2="770" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="730.55" y="792" text-anchor="middle">100</text>
+<line x1="872.98" y1="90" x2="872.98" y2="770" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="872.98" y="792" text-anchor="middle">200</text>
+<line x1="1061.27" y1="90" x2="1061.27" y2="770" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="1061.27" y="792" text-anchor="middle">500</text>
+<line x1="90" y1="770.00" x2="1130" y2="770.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="775.00" text-anchor="end">47.2</text>
+<line x1="90" y1="685.00" x2="1130" y2="685.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="690.00" text-anchor="end">48.5</text>
+<line x1="90" y1="600.00" x2="1130" y2="600.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="605.00" text-anchor="end">49.8</text>
+<line x1="90" y1="515.00" x2="1130" y2="515.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="520.00" text-anchor="end">51.1</text>
+<line x1="90" y1="430.00" x2="1130" y2="430.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="435.00" text-anchor="end">52.5</text>
+<line x1="90" y1="345.00" x2="1130" y2="345.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="350.00" text-anchor="end">53.8</text>
+<line x1="90" y1="260.00" x2="1130" y2="260.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="265.00" text-anchor="end">55.1</text>
+<line x1="90" y1="175.00" x2="1130" y2="175.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="180.00" text-anchor="end">56.4</text>
+<line x1="90" y1="90.00" x2="1130" y2="90.00" stroke="#efefef" stroke-width="1"/>
+<text class="tick" x="82" y="95.00" text-anchor="end">57.7</text>
+<text class="axis" x="610.00" y="836" text-anchor="middle">Inference FPS (log scale)</text>
+<text class="axis" transform="translate(26,430.00) rotate(-90)" text-anchor="middle">COCO mAP</text>
+<polyline points="420.81,691.54 295.03,394.48 223.76,284.70 111.65,168.46" fill="none" stroke="#0072B2" stroke-width="1.6" stroke-opacity="0.45" stroke-dasharray="5 4" />
+<polyline points="562.04,691.54 496.99,394.48 441.78,284.70 356.53,168.46" fill="none" stroke="#E69F00" stroke-width="1.6" stroke-opacity="0.45" stroke-dasharray="5 4" />
+<polyline points="821.39,691.54 724.82,394.48 669.04,284.70 558.27,168.46" fill="none" stroke="#009E73" stroke-width="1.6" stroke-opacity="0.45" stroke-dasharray="5 4" />
+<polyline points="957.17,691.54 840.12,394.48 770.81,284.70 656.29,168.46" fill="none" stroke="#CC79A7" stroke-width="1.6" stroke-opacity="0.45" stroke-dasharray="5 4" />
+<polyline points="1119.97,691.54 1027.88,394.48 996.75,284.70 916.23,168.46" fill="none" stroke="#D55E00" stroke-width="1.6" stroke-opacity="0.45" stroke-dasharray="5 4" />
+<polyline points="111.65,168.46 223.76,284.70 295.03,394.48 420.81,691.54" fill="none" stroke="#0072B2" stroke-width="2.2" stroke-opacity="0.95" />
+<polyline points="356.53,168.46 441.78,284.70 496.99,394.48 562.04,691.54" fill="none" stroke="#E69F00" stroke-width="2.2" stroke-opacity="0.95" />
+<polyline points="558.27,168.46 669.04,284.70 724.82,394.48 821.39,691.54" fill="none" stroke="#009E73" stroke-width="2.2" stroke-opacity="0.95" />
+<polyline points="656.29,168.46 770.81,284.70 840.12,394.48 957.17,691.54" fill="none" stroke="#CC79A7" stroke-width="2.2" stroke-opacity="0.95" />
+<polyline points="916.23,168.46 996.75,284.70 1027.88,394.48 1119.97,691.54" fill="none" stroke="#D55E00" stroke-width="2.2" stroke-opacity="0.95" />
+<circle cx="420.81" cy="691.54" r="6.00" fill="#1F77B4" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-n (RF-DETR) | CPU | Infer FPS 22.15 | mAP 48.4 | Params 26.877M | FLOPs 31.787G</title>
+</circle>
+<circle cx="295.03" cy="394.48" r="19.77" fill="#FF7F0E" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-s (RF-DETR) | CPU | Infer FPS 12.01 | mAP 53.0 | Params 28.524M | FLOPs 59.560G</title>
+</circle>
+<circle cx="223.76" cy="284.70" r="25.27" fill="#2CA02C" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-m (RF-DETR) | CPU | Infer FPS 8.49 | mAP 54.7 | Params 30.101M | FLOPs 78.492G</title>
+</circle>
+<circle cx="111.65" cy="168.46" r="26.00" fill="#D62728" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-l (RF-DETR) | CPU | Infer FPS 4.92 | mAP 56.5 | Params 30.350M | FLOPs 125.234G</title>
+</circle>
+<polygon points="567.35,696.86 556.72,696.86 556.72,686.22 567.35,686.22" fill="#1F77B4" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-n (RF-DETR) | CoreML | Infer FPS 44.04 | mAP 48.4 | Params 26.877M | FLOPs 31.787G</title>
+</polygon>
+<polygon points="514.51,412.01 479.47,412.01 479.47,376.96 514.51,376.96" fill="#FF7F0E" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-s (RF-DETR) | CoreML | Infer FPS 32.09 | mAP 53.0 | Params 28.524M | FLOPs 59.560G</title>
+</polygon>
+<polygon points="464.18,307.10 419.39,307.10 419.39,262.31 464.18,262.31" fill="#2CA02C" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-m (RF-DETR) | CoreML | Infer FPS 24.53 | mAP 54.7 | Params 30.101M | FLOPs 78.492G</title>
+</polygon>
+<polygon points="379.57,191.50 333.49,191.50 333.49,145.42 379.57,145.42" fill="#D62728" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-l (RF-DETR) | CoreML | Infer FPS 16.20 | mAP 56.5 | Params 30.350M | FLOPs 125.234G</title>
+</polygon>
+<polygon points="821.39,682.21 829.47,696.20 813.31,696.20" fill="#1F77B4" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-n (RF-DETR) | CUDA | Infer FPS 155.59 | mAP 48.4 | Params 26.877M | FLOPs 31.787G</title>
+</polygon>
+<polygon points="724.82,363.73 751.45,409.86 698.19,409.86" fill="#FF7F0E" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-s (RF-DETR) | CUDA | Infer FPS 97.25 | mAP 53.0 | Params 28.524M | FLOPs 59.560G</title>
+</polygon>
+<polygon points="669.04,245.40 703.07,304.35 635.01,304.35" fill="#2CA02C" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-m (RF-DETR) | CUDA | Infer FPS 74.13 | mAP 54.7 | Params 30.101M | FLOPs 78.492G</title>
+</polygon>
+<polygon points="558.27,128.03 593.29,188.68 523.25,188.68" fill="#D62728" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-l (RF-DETR) | CUDA | Infer FPS 43.24 | mAP 56.5 | Params 30.350M | FLOPs 125.234G</title>
+</polygon>
+<polygon points="957.17,684.02 964.69,691.54 957.17,699.06 949.65,691.54" fill="#1F77B4" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-n (RF-DETR) | TRT FP32 | Infer FPS 301.27 | mAP 48.4 | Params 26.877M | FLOPs 31.787G</title>
+</polygon>
+<polygon points="840.12,369.70 864.90,394.48 840.12,419.26 815.34,394.48" fill="#FF7F0E" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-s (RF-DETR) | TRT FP32 | Infer FPS 170.44 | mAP 53.0 | Params 28.524M | FLOPs 59.560G</title>
+</polygon>
+<polygon points="770.81,253.03 802.48,284.70 770.81,316.37 739.13,284.70" fill="#2CA02C" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-m (RF-DETR) | TRT FP32 | Infer FPS 121.64 | mAP 54.7 | Params 30.101M | FLOPs 78.492G</title>
+</polygon>
+<polygon points="656.29,135.88 688.87,168.46 656.29,201.05 623.70,168.46" fill="#D62728" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-l (RF-DETR) | TRT FP32 | Infer FPS 69.67 | mAP 56.5 | Params 30.350M | FLOPs 125.234G</title>
+</polygon>
+<polygon points="1119.97,684.64 1126.53,689.41 1124.03,697.12 1115.92,697.12 1113.41,689.41" fill="#1F77B4" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-n (RF-DETR) | TRT FP16 | Infer FPS 665.33 | mAP 48.4 | Params 26.877M | FLOPs 31.787G</title>
+</polygon>
+<polygon points="1027.88,371.75 1049.49,387.46 1041.24,412.87 1014.52,412.87 1006.26,387.46" fill="#FF7F0E" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-s (RF-DETR) | TRT FP16 | Infer FPS 425.00 | mAP 53.0 | Params 28.524M | FLOPs 59.560G</title>
+</polygon>
+<polygon points="996.75,255.65 1024.37,275.72 1013.82,308.20 979.68,308.20 969.12,275.72" fill="#2CA02C" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-m (RF-DETR) | TRT FP16 | Infer FPS 365.26 | mAP 54.7 | Params 30.101M | FLOPs 78.492G</title>
+</polygon>
+<polygon points="916.23,138.58 944.66,159.23 933.80,192.64 898.67,192.64 887.81,159.23" fill="#D62728" fill-opacity="0.72" stroke="#8B0000" stroke-width="1.80">
+<title>RF-DETR-l (RF-DETR) | TRT FP16 | Infer FPS 246.85 | mAP 56.5 | Params 30.350M | FLOPs 125.234G</title>
+</polygon>
+<text class="legend" x="1158" y="110">Device runtime (shape)</text>
+<circle cx="1168.00" cy="133.00" r="7.00" fill="#ececec" fill-opacity="1.00" stroke="#555555" stroke-width="1.20">
+</circle>
+<text class="legend" x="1182" y="139">CPU</text>
+<polygon points="1174.20,167.20 1161.80,167.20 1161.80,154.80 1174.20,154.80" fill="#ececec" fill-opacity="1.00" stroke="#555555" stroke-width="1.20">
+</polygon>
+<text class="legend" x="1182" y="167">CoreML</text>
+<polygon points="1168.00,178.11 1177.43,194.44 1158.57,194.44" fill="#ececec" fill-opacity="1.00" stroke="#555555" stroke-width="1.20">
+</polygon>
+<text class="legend" x="1182" y="195">CUDA</text>
+<polygon points="1168.00,208.23 1176.77,217.00 1168.00,225.77 1159.23,217.00" fill="#ececec" fill-opacity="1.00" stroke="#555555" stroke-width="1.20">
+</polygon>
+<text class="legend" x="1182" y="223">TRT FP32</text>
+<polygon points="1168.00,236.95 1175.65,242.51 1172.73,251.51 1163.27,251.51 1160.35,242.51" fill="#ececec" fill-opacity="1.00" stroke="#555555" stroke-width="1.20">
+</polygon>
+<text class="legend" x="1182" y="251">TRT FP16</text>
+<text class="legend" x="1158" y="284">Model family (stroke)</text>
+<circle cx="1168.00" cy="308.00" r="7.00" fill="#ffffff" fill-opacity="1.00" stroke="#8B0000" stroke-width="2.00">
+</circle>
+<text class="legend" x="1182" y="313">RF-DETR</text>
+<text class="legend" x="1158" y="346">Model variant (fill)</text>
+<circle cx="1168.00" cy="368.00" r="7.00" fill="#1F77B4" fill-opacity="0.95" stroke="#555555" stroke-width="1.00">
+</circle>
+<text class="legend" x="1182" y="373">RF-DETR-n</text>
+<circle cx="1418.00" cy="368.00" r="7.00" fill="#FF7F0E" fill-opacity="0.95" stroke="#555555" stroke-width="1.00">
+</circle>
+<text class="legend" x="1432" y="373">RF-DETR-s</text>
+<circle cx="1168.00" cy="394.00" r="7.00" fill="#2CA02C" fill-opacity="0.95" stroke="#555555" stroke-width="1.00">
+</circle>
+<text class="legend" x="1182" y="399">RF-DETR-m</text>
+<circle cx="1418.00" cy="394.00" r="7.00" fill="#D62728" fill-opacity="0.95" stroke="#555555" stroke-width="1.00">
+</circle>
+<text class="legend" x="1432" y="399">RF-DETR-l</text>
+<text class="legend" x="1158" y="442">Bubble size (Params (M))</text>
+<circle cx="1192.00" cy="468.00" r="6.00" fill="#cfcfcf" fill-opacity="0.55" stroke="#777777" stroke-width="1.00">
+</circle>
+<text class="legend" x="1234" y="473.00">26.9</text>
+<circle cx="1192.00" cy="526.00" r="20.14" fill="#cfcfcf" fill-opacity="0.55" stroke="#777777" stroke-width="1.00">
+</circle>
+<text class="legend" x="1234" y="531.00">28.6</text>
+<circle cx="1192.00" cy="584.00" r="26.00" fill="#cfcfcf" fill-opacity="0.55" stroke="#777777" stroke-width="1.00">
+</circle>
+<text class="legend" x="1234" y="589.00">30.4</text>
+<text class="legend" x="1158" y="660">Line styles</text>
+<line x1="1158" y1="676" x2="1204" y2="676" stroke="#777" stroke-width="1.6" stroke-dasharray="5 4" />
+<text class="legend" x="1214" y="680">same-runtime variant links</text>
+<line x1="1158" y1="702" x2="1204" y2="702" stroke="#777" stroke-width="2.2" />
+<text class="legend" x="1214" y="706">Pareto frontier</text>
+<text class="subtle" x="1158" y="736">Points include CPU, CoreML, CUDA, TRT FP32, TRT FP16 runs</text>
+</svg>
