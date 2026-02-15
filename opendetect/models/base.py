@@ -178,11 +178,11 @@ def provider_options_for(
             ep,
             {
                 # Mixed precision through FP16; INT8 intentionally off unless model is calibrated.
-                "trt_fp16_enable": "1" if mixed_precision else "0",
-                "trt_int8_enable": "0",
-                "trt_engine_cache_enable": "1",
+                "trt_fp16_enable": True if mixed_precision else False,
+                "trt_int8_enable": False,
+                "trt_engine_cache_enable": True,
                 "trt_engine_cache_path": _ep_cache_dir("TensorRT"),
-                "trt_timing_cache_enable": "1",
+                "trt_timing_cache_enable": True,
                 "trt_max_workspace_size": str(
                     1 << 30
                 ),  # 1GB workspace as a balanced default

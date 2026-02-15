@@ -39,6 +39,10 @@ cpu = [
 gpu = [
   "onnxruntime-gpu>=1.17",
 ]
+tensorrt = [
+  "onnxruntime-gpu>=1.17",
+  "nvidia-tensorrt",
+]
 dev = [
   "ruff>=0.6",
 ]
