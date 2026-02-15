@@ -87,9 +87,9 @@ TensorRT note:
 
 ## Model Families
 
-| Family | Year | License posture |
+| Family | Year | License |
 | --- | ---: | --- |
-| RF-DETR | 2026 | Open-source, commercial-friendly |
+| RF-DETR | 2026 | Apache-2.0 |
 | YOLOX | 2021 | Apache-2.0 |
 
 ## Documentation

@@ -10,9 +10,9 @@ OpenDetect ships a built-in model registry. Each model entry defines:
 
 ## Included Families
 
-| Family | Year | License posture | Why included |
+| Family | Year | License | Why included |
 | --- | ---: | --- | --- |
-| RF-DETR | 2026 | Open-source, commercial-friendly | Strong modern accuracy/speed tradeoff |
+| RF-DETR | 2026 | Apache-2.0 | Strong modern accuracy/speed tradeoff |
 | YOLOX | 2021 | Apache-2.0 | Stable last Apache-2.0 YOLO-family baseline |
 
 ## Model IDs
