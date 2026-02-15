@@ -1,5 +1,10 @@
 # OpenDetect
 
+[![PyPI version](https://img.shields.io/pypi/v/opendetect.svg)](https://pypi.org/project/opendetect/)
+[![Python versions](https://img.shields.io/pypi/pyversions/opendetect.svg)](https://pypi.org/project/opendetect/)
+[![Documentation Status](https://readthedocs.org/projects/opendetect/badge/?version=latest)](https://opendetect.readthedocs.io/en/latest/)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+
 ![OpenDetect header](docs/brand/opendetect-header.svg)
 
 Open-source object detection for production Python applications.  
@@ -88,6 +93,10 @@ TensorRT note:
 | YOLOX | 2021 | Apache-2.0 |
 
 ## Documentation
+
+Hosted docs:
+
+- https://opendetect.readthedocs.io
 
 Full guides are in `docs/`:
 
