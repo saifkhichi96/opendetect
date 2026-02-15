@@ -1,0 +1,6 @@
+.hero-image img {
+  width: 100%;
+  max-width: 980px;
+  border-radius: 10px;
+  border: 1px solid var(--color-background-border);
+}

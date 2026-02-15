@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-label="OpenDetect social header">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1e"/>
+      <stop offset="100%" stop-color="#102947"/>
+    </linearGradient>
+    <linearGradient id="lineA" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#60a5fa"/>
+    </linearGradient>
+    <linearGradient id="lineB" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f43f5e"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="640" fill="url(#bg)"/>
+
+  <g opacity="0.2">
+    <circle cx="1160" cy="90" r="150" fill="#38bdf8"/>
+    <circle cx="1050" cy="520" r="190" fill="#1d4ed8"/>
+    <circle cx="190" cy="30" r="130" fill="#7c3aed"/>
+  </g>
+
+  <g opacity="0.7" fill="none" stroke-width="3">
+    <path d="M30 470 C 190 360, 320 500, 520 390 C 690 300, 820 400, 1030 320 C 1130 280, 1200 300, 1250 280" stroke="url(#lineA)"/>
+    <path d="M30 520 C 210 450, 340 570, 520 500 C 700 430, 820 520, 1030 460 C 1130 430, 1210 450, 1250 440" stroke="url(#lineB)"/>
+  </g>
+
+  <g fill="none" stroke="#93c5fd" stroke-width="3" opacity="0.8">
+    <rect x="860" y="190" width="70" height="40"/>
+    <rect x="950" y="165" width="90" height="65"/>
+    <rect x="1065" y="135" width="95" height="95"/>
+    <rect x="1180" y="105" width="70" height="125"/>
+  </g>
+
+  <g fill="#f8fafc">
+    <text x="74" y="235" style="font-family: Arial, Helvetica, sans-serif; font-size: 82px; font-weight: 700; letter-spacing: 1px;">OpenDetect</text>
+    <text x="76" y="292" style="font-family: Arial, Helvetica, sans-serif; font-size: 30px; font-weight: 500; opacity: 0.94;">
+      Open-source-first object detection for production
+    </text>
+    <text x="76" y="340" style="font-family: Arial, Helvetica, sans-serif; font-size: 21px; font-weight: 400; opacity: 0.82;">
+      Unified inference on CPU, CoreML, CUDA, and TensorRT
+    </text>
+  </g>
+
+  <g>
+    <rect x="76" y="380" width="300" height="42" rx="10" ry="10" fill="#0ea5e9" opacity="0.3"/>
+    <text x="94" y="408" style="font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 700; fill: #e0f2fe;">
+      Free for Commercial Use
+    </text>
+  </g>
+</svg>

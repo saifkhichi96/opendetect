@@ -4,7 +4,7 @@
 
 Open-source object detection for Python developers. Frictionless installation. Free for commercial use.
 
-`opendetect` packages high-quality ONNX object detection models behind one consistent API, with both Python and CLI workflows.
+`opendetect` packages production-friendly ONNX object detection models behind one consistent API, with both Python and CLI workflows.
 
 ## Why OpenDetect
 
