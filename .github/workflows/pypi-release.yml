@@ -22,7 +22,11 @@ jobs:
       - name: Verify tag matches package version
         run: |
           TAG_VERSION="${GITHUB_REF_NAME#v}"
-          PACKAGE_VERSION="$(python -c 'from pathlib import Path; import re; import sys; content = Path(\"opendetect/_version.py\").read_text(encoding=\"utf-8\"); match = re.search(r\"__version__\\s*=\\s*[\\\"\\\']([^\\\"\\\']+)[\\\"\\\']\", content); sys.exit(\"Unable to parse __version__ from opendetect/_version.py\") if not match else None; print(match.group(1))')"
+          PACKAGE_VERSION="$(awk -F'\"' '/^__version__ = / { print $2; exit }' opendetect/_version.py)"
+          if [ -z "$PACKAGE_VERSION" ]; then
+            echo "Unable to parse __version__ from opendetect/_version.py."
+            exit 1
+          fi
           if [ "$TAG_VERSION" != "$PACKAGE_VERSION" ]; then
             echo "Tag version ($TAG_VERSION) does not match package version ($PACKAGE_VERSION)."
             exit 1
