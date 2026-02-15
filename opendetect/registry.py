@@ -58,7 +58,7 @@ _MODEL_SPECS: tuple[ModelSpec, ...] = (
     ModelSpec(
         model_id="yolox-tiny",
         implementation="yolox",
-        input_size=(640, 640),
+        input_size=(416, 416),
         artifact_path="yolox/yolox_tiny_8xb8-300e_humanart-6f3252f9.onnx",
         aliases=("yolox-t", "yolox_tiny"),
         description="YOLOX Tiny",
