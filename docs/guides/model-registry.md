@@ -3,7 +3,7 @@
 OpenDetect ships a built-in model registry. Each model entry defines:
 
 - `model_id`
-- implementation family (`rfdetr` or `yolox`)
+- implementation family (`rfdetr`, `yolox`, or `bytetrack`)
 - default input size
 - remote artifact path
 - aliases and description
@@ -13,6 +13,7 @@ OpenDetect ships a built-in model registry. Each model entry defines:
 | Family | Year | License | Why included |
 | --- | ---: | --- | --- |
 | RF-DETR | 2026 | Apache-2.0 | Strong modern accuracy/speed tradeoff |
+| ByteTrack Detector | 2022 | MIT | ByteTrack MOT17 detector for accurate but slow detection |
 | YOLOX | 2021 | Apache-2.0 | Stable last Apache-2.0 YOLO-family baseline |
 
 ## Model IDs
@@ -28,6 +29,9 @@ OpenDetect ships a built-in model registry. Each model entry defines:
 | `yolox-m` | YOLOX | `640x640` |
 | `yolox-l` | YOLOX | `640x640` |
 | `yolox-x` | YOLOX | `640x640` |
+| `bytetrack-s` | ByteTrack Detector | `608x1088` |
+| `bytetrack-m` | ByteTrack Detector | `608x1088` |
+| `bytetrack-l` | ByteTrack Detector | `608x1088` |
 
 ## Inspect and Download
 

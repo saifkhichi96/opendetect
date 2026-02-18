@@ -3,10 +3,12 @@ from __future__ import annotations
 from pathlib import Path
 
 from .base import DetectorModel
+from .bytetrack import ByteTrackModel
 from .rfdetr import RFDETRModel
 from .yolox import YOLOXModel
 
 MODEL_REGISTRY = {
+    ByteTrackModel.model_name: ByteTrackModel,
     RFDETRModel.model_name: RFDETRModel,
     YOLOXModel.model_name: YOLOXModel,
 }

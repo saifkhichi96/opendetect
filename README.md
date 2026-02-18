@@ -90,6 +90,7 @@ TensorRT note:
 | Family | Year | License |
 | --- | ---: | --- |
 | RF-DETR | 2026 | Apache-2.0 |
+| ByteTrack Detector | 2022 | MIT |
 | YOLOX | 2021 | Apache-2.0 |
 
 ## Documentation

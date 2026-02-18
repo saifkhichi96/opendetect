@@ -29,8 +29,8 @@ detector.infer_video_file("input.mp4", output_path="output.mp4", max_frames=300)
 
 You can load by registry model ID (recommended) or by implementation name.
 
-- registry IDs: `rfdetr-n`, `rfdetr-s`, `rfdetr-m`, `rfdetr-l`, `yolox-tiny`, `yolox-s`, `yolox-m`, `yolox-l`, `yolox-x`
-- implementation names: `rfdetr`, `yolox` (maps to project defaults)
+- registry IDs: `rfdetr-n`, `rfdetr-s`, `rfdetr-m`, `rfdetr-l`, `yolox-tiny`, `yolox-s`, `yolox-m`, `yolox-l`, `yolox-x`, `bytetrack-s`, `bytetrack-m`, `bytetrack-l`
+- implementation names: `rfdetr`, `yolox`, `bytetrack` (maps to project defaults)
 
 ## Runtime Controls
 

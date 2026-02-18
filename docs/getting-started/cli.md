@@ -16,6 +16,12 @@ opendetect --version
 
 ## Inference
 
+You can select any registered model ID from these families:
+
+- `rfdetr`
+- `yolox`
+- `bytetrack`
+
 Image inference:
 
 ```bash
