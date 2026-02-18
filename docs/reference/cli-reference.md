@@ -19,7 +19,7 @@ Required input:
 Model selection:
 
 - `--model-id` (preferred)
-- `--model-name` (`rfdetr`, `yolox`, or `bytetrack`)
+- `--model-name` (`rfdetr`, `yolox`, `rtmdet`, or `bytetrack`)
 - `--model PATH` (local ONNX model)
 - `--input-size HxW`
 

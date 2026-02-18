@@ -5,11 +5,13 @@ from pathlib import Path
 from .base import DetectorModel
 from .bytetrack import ByteTrackModel
 from .rfdetr import RFDETRModel
+from .rtmdet import RTMDetModel
 from .yolox import YOLOXModel
 
 MODEL_REGISTRY = {
     ByteTrackModel.model_name: ByteTrackModel,
     RFDETRModel.model_name: RFDETRModel,
+    RTMDetModel.model_name: RTMDetModel,
     YOLOXModel.model_name: YOLOXModel,
 }
 

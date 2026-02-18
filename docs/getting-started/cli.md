@@ -20,6 +20,7 @@ You can select any registered model ID from these families:
 
 - `rfdetr`
 - `yolox`
+- `rtmdet`
 - `bytetrack`
 
 Image inference:

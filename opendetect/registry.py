@@ -16,6 +16,7 @@ class ModelSpec:
     artifact_path: str
     aliases: tuple[str, ...] = ()
     description: str = ""
+    base_url: str | None = None
 
     @property
     def filename(self) -> str:
@@ -96,6 +97,42 @@ _MODEL_SPECS: tuple[ModelSpec, ...] = (
         description="YOLOX X",
     ),
     ModelSpec(
+        model_id="rtmdet-n-hand",
+        implementation="rtmdet",
+        input_size=(320, 320),
+        artifact_path="rtmdet-n-hand.onnx",
+        aliases=("rtmdet-nano-hand",),
+        description="RTMDet Nano (hand)",
+        base_url="https://huggingface.co/bukuroo/RTMDet-ONNX/resolve/main/"
+    ),
+    ModelSpec(
+        model_id="rtmdet-s",
+        implementation="rtmdet",
+        input_size=(640, 640),
+        artifact_path="rtmdet-s-coco.onnx",
+        aliases=("rtmdet-small",),
+        description="RTMDet Small",
+        base_url="https://huggingface.co/bukuroo/RTMDet-ONNX/resolve/main/"
+    ),
+    ModelSpec(
+        model_id="rtmdet-m",
+        implementation="rtmdet",
+        input_size=(640, 640),
+        artifact_path="rtmdet-m-coco.onnx",
+        aliases=("rtmdet-medium",),
+        description="RTMDet Medium",
+        base_url="https://huggingface.co/bukuroo/RTMDet-ONNX/resolve/main/"
+    ),
+    ModelSpec(
+        model_id="rtmdet-l",
+        implementation="rtmdet",
+        input_size=(640, 640),
+        artifact_path="rtmdet-l-coco.onnx",
+        aliases=("rtmdet-large",),
+        description="RTMDet Large",
+        base_url="https://huggingface.co/bukuroo/RTMDet-ONNX/resolve/main/"
+    ),
+    ModelSpec(
         model_id="bytetrack-s",
         implementation="bytetrack",
         input_size=(608, 1088),
@@ -131,6 +168,7 @@ for _spec in _MODEL_SPECS:
 _DEFAULT_ID_BY_IMPL = {
     "bytetrack": "bytetrack-m",
     "rfdetr": "rfdetr-m",
+    "rtmdet": "rtmdet-m",
     "yolox": "yolox-s",
 }
 
@@ -140,6 +178,7 @@ def model_base_url() -> str:
 
 
 def model_url(spec: ModelSpec, base_url: str | None = None) -> str:
+    base_url = spec.base_url or base_url
     root = (base_url or model_base_url()).rstrip("/")
     return f"{root}/{spec.artifact_path}"
 
