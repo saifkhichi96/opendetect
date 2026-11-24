@@ -11,11 +11,11 @@ from .registry import (
 from .types import Detections, LoadedModelInfo
 
 __all__ = [
-    "__version__",
-    "Detector",
     "Detections",
+    "Detector",
     "LoadedModelInfo",
     "ModelSpec",
+    "__version__",
     "download_model",
     "get_model_spec",
     "list_model_ids",

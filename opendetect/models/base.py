@@ -4,8 +4,9 @@ import hashlib
 import os
 import platform
 import warnings
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Protocol, Tuple, Union
+from typing import Any, Protocol, Union
 
 import numpy as np
 import onnx
@@ -13,7 +14,7 @@ import onnxruntime as ort
 
 Detections = dict[str, np.ndarray]
 
-ProviderEntry = Union[str, Tuple[str, Dict[str, Any]]]
+ProviderEntry = Union[str, tuple[str, dict[str, Any]]]
 
 # Some builds report DirectML as DmlExecutionProvider
 _DIRECTML_ALIASES = {"DmlExecutionProvider", "DirectMLExecutionProvider"}
@@ -63,7 +64,7 @@ def _ensure_metadata_cache_key(onnx_path: str, key_name: str = "CACHE_KEY") -> N
         warnings.warn(f"Unable to set CoreML cache metadata on '{onnx_path}': {e}")
 
 
-def _available_providers() -> List[str]:
+def _available_providers() -> list[str]:
     return list(ort.get_available_providers())
 
 
@@ -73,7 +74,7 @@ def _has(ep: str, available: Iterable[str]) -> bool:
     return ep in set(available)
 
 
-def _canonical_directml_name(available: Iterable[str]) -> Optional[str]:
+def _canonical_directml_name(available: Iterable[str]) -> str | None:
     for n in _DIRECTML_ALIASES:
         if n in available:
             return n
@@ -83,7 +84,7 @@ def _canonical_directml_name(available: Iterable[str]) -> Optional[str]:
 def resolve_execution_providers(
     hardware_acceleration: bool = True,
     tensor_rt: bool = False,
-) -> List[str]:
+) -> list[str]:
     """
     Decide an ordered list of EPs to request, from most preferred to least.
     Always ends with CPUExecutionProvider as a safety net.
@@ -93,7 +94,7 @@ def resolve_execution_providers(
 
     avail = _available_providers()
 
-    order: List[str] = []
+    order: list[str] = []
 
     # Apple first: CoreML is fastest when available on macOS
     if _has("CoreMLExecutionProvider", avail):
@@ -151,7 +152,7 @@ def provider_options_for(
     *,
     onnx_model: str,
     mixed_precision: bool,
-) -> Optional[ProviderEntry]:
+) -> ProviderEntry | None:
     """
     Return a (name, options) tuple for EPs that benefit from tuned options.
     Return just the string name (or None) to skip options.
@@ -254,12 +255,12 @@ def provider_options_for(
 
 
 def build_provider_entries(
-    providers: List[str],
+    providers: list[str],
     *,
     onnx_model: str,
     mixed_precision: bool,
-) -> List[ProviderEntry]:
-    entries: List[ProviderEntry] = []
+) -> list[ProviderEntry]:
+    entries: list[ProviderEntry] = []
     for p in providers:
         entry = provider_options_for(
             p, onnx_model=onnx_model, mixed_precision=mixed_precision
@@ -270,11 +271,11 @@ def build_provider_entries(
 
 
 def create_ort_session(
-    model_path: Union[str, Path],
+    model_path: str | Path,
     hardware_acceleration: bool = True,
     tensor_rt: bool = False,
     mixed_precision: bool = True,
-    overrides: Optional[Dict[str, Dict[str, Any]]] = None,
+    overrides: dict[str, dict[str, Any]] | None = None,
 ) -> ort.InferenceSession:
     providers = resolve_execution_providers(
         hardware_acceleration=hardware_acceleration, tensor_rt=tensor_rt

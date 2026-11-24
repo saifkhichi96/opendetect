@@ -6,8 +6,8 @@ import cv2
 import numpy as np
 
 from ._nms import multiclass_nms
-from .base import Detections, create_ort_session
 from ._viz import class_name_for_id, color_for_class_id, draw_box_with_label
+from .base import Detections, create_ort_session
 
 
 class YOLOXModel:

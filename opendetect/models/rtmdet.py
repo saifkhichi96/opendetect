@@ -44,7 +44,11 @@ class RTMDetModel:
         if class_ids is None:
             class_ids = self.default_class_ids()
         self.class_ids = class_ids if class_ids else None
-        self.class_ids_np = np.asarray(self.class_ids, dtype=np.int64) if self.class_ids is not None else None
+        self.class_ids_np = (
+            np.asarray(self.class_ids, dtype=np.int64)
+            if self.class_ids is not None
+            else None
+        )
 
         self.mean = np.asarray(mean, dtype=np.float32)
         self.std = np.asarray(std, dtype=np.float32)
@@ -172,7 +176,9 @@ class RTMDetModel:
             xv, yv = np.meshgrid(np.arange(wsize), np.arange(hsize))
             grid = np.stack((xv, yv), axis=2).reshape(1, -1, 2).astype(np.float32)
             grids.append(grid)
-            expanded_strides.append(np.full((*grid.shape[:2], 1), stride, dtype=np.float32))
+            expanded_strides.append(
+                np.full((*grid.shape[:2], 1), stride, dtype=np.float32)
+            )
 
         grids = np.concatenate(grids, axis=1)
         expanded_strides = np.concatenate(expanded_strides, axis=1)
