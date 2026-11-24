@@ -42,6 +42,15 @@ opendetect-infer \
   --output output.mp4
 ```
 
+Live instance segmentation:
+
+```bash
+opendetect-infer --camera 0 --model-id rfdetr-seg-n --class-names person
+```
+
+The preview overlays masks and boxes. For a local ONNX export, add
+`--model /path/to/rfdetr-seg-nano.onnx` with the matching model ID.
+
 Live camera tracking:
 
 ```bash

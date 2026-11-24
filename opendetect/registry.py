@@ -4,7 +4,6 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
-
 DEFAULT_MODEL_BASE_URL = "https://huggingface.co/saifkhichi96/opendetect/resolve/main"
 
 
@@ -56,6 +55,22 @@ _MODEL_SPECS: tuple[ModelSpec, ...] = (
         aliases=("rfdetr-large",),
         description="RF-DETR Large",
     ),
+    *(
+        ModelSpec(
+            model_id=f"rfdetr-seg-{short}",
+            implementation="rfdetr",
+            input_size=(size, size),
+            artifact_path=f"rfdetr/rfdetr-seg-{name}.onnx",
+            aliases=(f"rfdetr-seg-{name}",),
+            description=f"RF-DETR {name.title()} instance segmentation",
+        )
+        for short, name, size in (
+            ("n", "nano", 312),
+            ("s", "small", 384),
+            ("m", "medium", 432),
+            ("l", "large", 504),
+        )
+    ),
     ModelSpec(
         model_id="yolox-tiny",
         implementation="yolox",
@@ -103,7 +118,7 @@ _MODEL_SPECS: tuple[ModelSpec, ...] = (
         artifact_path="rtmdet-n-hand.onnx",
         aliases=("rtmdet-nano-hand",),
         description="RTMDet Nano (hand)",
-        base_url="https://huggingface.co/bukuroo/RTMDet-ONNX/resolve/main/"
+        base_url="https://huggingface.co/bukuroo/RTMDet-ONNX/resolve/main/",
     ),
     ModelSpec(
         model_id="rtmdet-s",
@@ -112,7 +127,7 @@ _MODEL_SPECS: tuple[ModelSpec, ...] = (
         artifact_path="rtmdet-s-coco.onnx",
         aliases=("rtmdet-small",),
         description="RTMDet Small",
-        base_url="https://huggingface.co/bukuroo/RTMDet-ONNX/resolve/main/"
+        base_url="https://huggingface.co/bukuroo/RTMDet-ONNX/resolve/main/",
     ),
     ModelSpec(
         model_id="rtmdet-m",
@@ -121,7 +136,7 @@ _MODEL_SPECS: tuple[ModelSpec, ...] = (
         artifact_path="rtmdet-m-coco.onnx",
         aliases=("rtmdet-medium",),
         description="RTMDet Medium",
-        base_url="https://huggingface.co/bukuroo/RTMDet-ONNX/resolve/main/"
+        base_url="https://huggingface.co/bukuroo/RTMDet-ONNX/resolve/main/",
     ),
     ModelSpec(
         model_id="rtmdet-l",
@@ -130,7 +145,7 @@ _MODEL_SPECS: tuple[ModelSpec, ...] = (
         artifact_path="rtmdet-l-coco.onnx",
         aliases=("rtmdet-large",),
         description="RTMDet Large",
-        base_url="https://huggingface.co/bukuroo/RTMDet-ONNX/resolve/main/"
+        base_url="https://huggingface.co/bukuroo/RTMDet-ONNX/resolve/main/",
     ),
 )
 

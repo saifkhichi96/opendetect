@@ -20,6 +20,20 @@ def class_name_for_id(class_id: int, class_names: list[str] | None) -> str:
     return f"class_{idx}"
 
 
+def draw_instance_masks(frame_bgr: np.ndarray, masks: np.ndarray) -> None:
+    """Blend each image-space instance mask onto a BGR frame."""
+    for index, mask in enumerate(masks):
+        draw_instance_mask(frame_bgr, mask, color_for_class_id(index))
+
+
+def draw_instance_mask(
+    frame_bgr: np.ndarray, mask: np.ndarray, color_bgr: tuple[int, int, int]
+) -> None:
+    frame_bgr[mask] = 0.65 * frame_bgr[mask] + 0.35 * np.asarray(
+        color_bgr, dtype=np.float32
+    )
+
+
 def draw_box_with_label(
     frame_bgr: np.ndarray,
     pt1: tuple[int, int],

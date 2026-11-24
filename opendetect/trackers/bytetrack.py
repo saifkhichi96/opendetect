@@ -91,6 +91,12 @@ class ByteTracker:
 
     def update(self, boxes: np.ndarray, scores: np.ndarray) -> list[Track]:
         """One frame of detections -> (track id, box xyxy, score) of the tracks seen in it."""
+        return [track for track, _ in self.update_with_indices(boxes, scores)]
+
+    def update_with_indices(
+        self, boxes: np.ndarray, scores: np.ndarray
+    ) -> list[tuple[Track, int]]:
+        """Return visible tracks with their corresponding input detection indices."""
         boxes = np.asarray(boxes, dtype=np.float64)
         if boxes.ndim == 1 and boxes.size == 0:
             boxes = boxes.reshape(0, 4)
@@ -102,28 +108,33 @@ class ByteTracker:
             & np.isfinite(scores)
             & (boxes[:, 2:] > boxes[:, :2]).all(axis=1)
         )
-        boxes, scores = boxes[valid], scores[valid]
         for t in self.tracks:
             t.predict()
-        high = scores >= self.high_thr
-        low = ~high & (scores > self.low_thr)
+        high = np.flatnonzero(valid & (scores >= self.high_thr))
+        low = np.flatnonzero(valid & (scores < self.high_thr) & (scores > self.low_thr))
         hb, hs, lb, ls = boxes[high], scores[high], boxes[low], scores[low]
+        matched = {}
 
         pairs, open_tracks, open_dets = self._match(self.tracks, hb)
         for ti, di in pairs:
-            self.tracks[ti].update(hb[di], hs[di])
+            track = self.tracks[ti]
+            track.update(hb[di], hs[di])
+            matched[track.id] = int(high[di])
         remaining = [self.tracks[i] for i in open_tracks]
         if remaining and len(lb):
             pairs2, _, _ = self._match(remaining, lb)
             for ti, di in pairs2:
-                remaining[ti].update(lb[di], ls[di])
+                track = remaining[ti]
+                track.update(lb[di], ls[di])
+                matched[track.id] = int(low[di])
         for di in open_dets:
             self.tracks.append(_Track(self._next_id, hb[di], hs[di]))
+            matched[self._next_id] = int(high[di])
             self._next_id += 1
 
         self.tracks = [t for t in self.tracks if t.time_since_update <= self.max_lost]
         return [
-            (t.id, t.box(), float(t.score))
+            ((t.id, t.box(), float(t.score)), matched[t.id])
             for t in self.tracks
             if t.time_since_update == 0
         ]

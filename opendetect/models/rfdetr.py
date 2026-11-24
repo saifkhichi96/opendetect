@@ -5,8 +5,31 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+from ._viz import (
+    class_name_for_id,
+    color_for_class_id,
+    draw_box_with_label,
+    draw_instance_masks,
+)
 from .base import Detections, create_ort_session
-from ._viz import class_name_for_id, color_for_class_id, draw_box_with_label
+
+# Segmentation exports use sparse COCO category IDs. Map them to the same
+# contiguous class names and IDs exposed by OpenDetect's other COCO models.
+_COCO_CATEGORY_IDS = (
+    *range(1, 12),
+    *range(13, 26),
+    27,
+    28,
+    *range(31, 45),
+    *range(46, 66),
+    67,
+    70,
+    72,
+    *range(73, 83),
+    *range(84, 91),
+)
+_COCO_CLASS_IDS = np.full(91, -1, dtype=np.int64)
+_COCO_CLASS_IDS[list(_COCO_CATEGORY_IDS)] = np.arange(len(_COCO_CATEGORY_IDS))
 
 
 class RFDETRModel:
@@ -81,6 +104,8 @@ class RFDETRModel:
             return list(base_names)
 
         shape = output_infos[1].shape
+        if len(output_infos) == 3 and len(shape) == 3 and shape[-1] == 91:
+            return list(base_names)
         if len(shape) == 3 and isinstance(shape[2], int) and int(shape[2]) > 1:
             num_foreground = int(shape[2]) - 1
             if num_foreground <= len(base_names):
@@ -132,7 +157,12 @@ class RFDETRModel:
     def postprocess(
         self, outputs: tuple[np.ndarray, ...], target_sizes: np.ndarray
     ) -> list[Detections]:
-        out_bbox, out_logits = outputs
+        if len(outputs) not in (2, 3):
+            raise ValueError(
+                "Expected RF-DETR boxes, class logits, and optional mask logits."
+            )
+        out_bbox, out_logits = outputs[:2]
+        mask_logits = outputs[2] if len(outputs) == 3 else None
 
         if out_bbox.ndim != 3 or out_logits.ndim != 3:
             raise ValueError("Expected outputs with shape [batch, queries, ...].")
@@ -143,17 +173,31 @@ class RFDETRModel:
             or out_logits.shape[0] != target_sizes.shape[0]
         ):
             raise ValueError("Batch size mismatch between outputs and target_sizes.")
+        if mask_logits is not None and (
+            mask_logits.ndim != 4 or mask_logits.shape[:2] != out_bbox.shape[:2]
+        ):
+            raise ValueError(
+                "Expected RF-DETR masks with shape [batch, queries, height, width]."
+            )
 
         probs = self._sigmoid(out_logits)
         # RF-DETR exports include a background class at index 0.
         # Exclude it from ranking so class IDs match YOLOX-style 0-based foreground IDs.
         probs[..., 0] = -1.0
         batch_size, _, num_classes = probs.shape
+        class_map = np.arange(num_classes) - 1
+        if mask_logits is not None:
+            if num_classes == len(_COCO_CLASS_IDS):
+                class_map = _COCO_CLASS_IDS
+            allowed = class_map >= 0
+            if self.class_ids_np is not None:
+                allowed &= np.isin(class_map, self.class_ids_np)
+            probs[..., ~allowed] = -1.0
 
         flat_probs = probs.reshape(batch_size, -1)
         num_topk = min(self.num_select, flat_probs.shape[1])
         if num_topk <= 0:
-            return [
+            detections = [
                 {
                     "xyxy": np.empty((0, 4), dtype=np.float32),
                     "confidence": np.empty((0,), dtype=np.float32),
@@ -161,6 +205,12 @@ class RFDETRModel:
                 }
                 for _ in range(batch_size)
             ]
+            if mask_logits is not None:
+                for detection, (height, width) in zip(detections, target_sizes):
+                    detection["masks"] = np.empty(
+                        (0, int(height), int(width)), dtype=bool
+                    )
+            return detections
 
         topk_unsorted_indices = np.argpartition(flat_probs, -num_topk, axis=1)[
             :, -num_topk:
@@ -174,7 +224,7 @@ class RFDETRModel:
 
         topk_boxes = topk_indices // num_classes
         labels = topk_indices % num_classes
-        mapped_labels = labels - 1
+        mapped_labels = class_map[labels]
 
         boxes = self._box_cxcywh_to_xyxy(out_bbox)
         batch_indices = np.arange(batch_size)[:, None]
@@ -188,17 +238,31 @@ class RFDETRModel:
         detections = []
         for i in range(batch_size):
             keep = scores[i] > self.threshold
-            keep &= labels[i] > 0
+            keep &= mapped_labels[i] >= 0
             if self.class_ids_np is not None:
                 keep &= np.isin(mapped_labels[i], self.class_ids_np)
 
-            detections.append(
-                {
-                    "xyxy": boxes[i][keep].astype(np.float32),
-                    "confidence": scores[i][keep].astype(np.float32),
-                    "class_id": mapped_labels[i][keep].astype(np.int64),
-                }
-            )
+            detection = {
+                "xyxy": boxes[i][keep].astype(np.float32),
+                "confidence": scores[i][keep].astype(np.float32),
+                "class_id": mapped_labels[i][keep].astype(np.int64),
+            }
+            if mask_logits is not None:
+                height, width = int(img_h[i]), int(img_w[i])
+                queries = topk_boxes[i][keep]
+                masks = np.empty((len(queries), height, width), dtype=bool)
+                # Resize logits in image space before thresholding at probability 0.5.
+                for index, query in enumerate(queries):
+                    masks[index] = (
+                        cv2.resize(
+                            mask_logits[i, query].astype(np.float32, copy=False),
+                            (width, height),
+                            interpolation=cv2.INTER_LINEAR,
+                        )
+                        > 0.0
+                    )
+                detection["masks"] = masks
+            detections.append(detection)
 
         return detections
 
@@ -213,6 +277,8 @@ class RFDETRModel:
         if frame_bgr.ndim != 3 or frame_bgr.shape[2] != 3:
             raise ValueError("Expected frame_bgr shape [H, W, 3].")
 
+        if "masks" in detections:
+            draw_instance_masks(frame_bgr, detections["masks"])
         for class_id, box, score in zip(
             detections["class_id"],
             detections["xyxy"],

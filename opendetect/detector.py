@@ -10,7 +10,7 @@ import numpy as np
 
 from .download import download_model
 from .models import available_models, create_model, default_input_size
-from .models._viz import draw_box_with_label
+from .models._viz import draw_box_with_label, draw_instance_mask
 from .models.base import DetectorModel
 from .registry import ModelSpec, get_model_spec
 from .types import Detections, LoadedModelInfo
@@ -288,6 +288,32 @@ class Detector:
         output = Path(output_path) if output_path is not None else None
         return self._infer_capture(camera, output, max_frames, tracker, preview)
 
+    def _annotate_tracks(self, frame_bgr: np.ndarray, tracker: Tracker) -> np.ndarray:
+        detections = self.predict(frame_bgr, color="bgr")
+        boxes, scores = detections["xyxy"], detections["confidence"]
+        masks = detections.get("masks")
+        update_with_indices = getattr(tracker, "update_with_indices", None)
+        if masks is not None and update_with_indices is not None:
+            tracks = update_with_indices(boxes, scores)
+        else:
+            tracks = [(track, None) for track in tracker.update(boxes, scores)]
+
+        annotated = frame_bgr.copy()
+        height, width = annotated.shape[:2]
+        bounds = [width - 1, height - 1] * 2
+        labels = []
+        for (track_id, box, score), detection_index in tracks:
+            # An odd multiplier permutes the 21-bit palette by track ID.
+            color_code = track_id * 0x17A4AB
+            color = tuple(96 + ((color_code >> shift) & 127) for shift in (0, 7, 14))
+            if masks is not None and detection_index is not None:
+                draw_instance_mask(annotated, masks[detection_index], color)
+            x1, y1, x2, y2 = map(int, np.clip(np.rint(box), 0, bounds))
+            labels.append(((x1, y1), (x2, y2), color, f"ID {track_id} {score:.2f}"))
+        for label in labels:
+            draw_box_with_label(annotated, *label)
+        return annotated
+
     def _infer_capture(self, source, output_path, max_frames, tracker, preview):
         cap = cv2.VideoCapture(source)
         writer = None
@@ -310,28 +336,7 @@ class Detector:
                 if tracker is None:
                     _, annotated = self.predict_and_annotate(frame_bgr, color="bgr")
                 else:
-                    detections = self.predict(frame_bgr, color="bgr")
-                    tracks = tracker.update(
-                        detections["xyxy"], detections["confidence"]
-                    )
-                    annotated = frame_bgr.copy()
-                    height, width = annotated.shape[:2]
-                    bounds = [width - 1, height - 1] * 2
-                    for track_id, box, score in tracks:
-                        x1, y1, x2, y2 = map(int, np.clip(np.rint(box), 0, bounds))
-                        # An odd multiplier permutes the 21-bit palette so IDs
-                        # get distinct bright colors instead of adjacent shades.
-                        color_code = track_id * 0x17A4AB
-                        color = tuple(
-                            96 + ((color_code >> shift) & 127) for shift in (0, 7, 14)
-                        )
-                        draw_box_with_label(
-                            annotated,
-                            (x1, y1),
-                            (x2, y2),
-                            color,
-                            f"ID {track_id} {score:.2f}",
-                        )
+                    annotated = self._annotate_tracks(frame_bgr, tracker)
                 if output_path is not None:
                     if writer is None:
                         height, width = annotated.shape[:2]

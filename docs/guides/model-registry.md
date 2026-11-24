@@ -24,6 +24,10 @@ OpenDetect ships a built-in model registry. Each model entry defines:
 | `rfdetr-s` | RF-DETR | `512x512` |
 | `rfdetr-m` | RF-DETR | `576x576` |
 | `rfdetr-l` | RF-DETR | `704x704` |
+| `rfdetr-seg-n` | RF-DETR instance segmentation | `312x312` |
+| `rfdetr-seg-s` | RF-DETR instance segmentation | `384x384` |
+| `rfdetr-seg-m` | RF-DETR instance segmentation | `432x432` |
+| `rfdetr-seg-l` | RF-DETR instance segmentation | `504x504` |
 | `yolox-tiny` | YOLOX | `416x416` |
 | `yolox-s` | YOLOX | `640x640` |
 | `yolox-m` | YOLOX | `640x640` |

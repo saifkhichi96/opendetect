@@ -32,6 +32,22 @@ You can load by registry model ID (recommended) or by implementation name.
 - registry IDs: `rfdetr-n`, `rfdetr-s`, `rfdetr-m`, `rfdetr-l`, `yolox-tiny`, `yolox-s`, `yolox-m`, `yolox-l`, `yolox-x`, `rtmdet-n-hand`, `rtmdet-s`, `rtmdet-m`, `rtmdet-l`
 - implementation names: `rfdetr`, `yolox`, `rtmdet` (maps to project defaults)
 
+## Instance segmentation
+
+Select an RF-DETR segmentation variant by model ID. The same `predict()`
+method returns boxes, confidence scores, class IDs, and one boolean mask per
+detection at the original image resolution.
+
+```python
+detector = Detector(model="rfdetr-seg-n", class_ids=[0])
+detections = detector.predict(image, color="bgr")
+masks = detections["masks"]  # shape (N, image_height, image_width)
+annotated = detector.annotate(image, detections, color="bgr")
+```
+
+The mask rows match the box, score, and class ID rows. Box-only models
+continue to return `xyxy`, `confidence`, and `class_id`.
+
 ## Track identities across frames
 
 Install `opendetect[tracking]` to use identity tracking. Create one tracker per video or camera and call it once per frame, including frames with no detections.
