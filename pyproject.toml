@@ -33,6 +33,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+tracking = [
+  "scipy>=1.8",
+]
 cpu = [
   "onnxruntime>=1.17",
 ]

@@ -132,30 +132,6 @@ _MODEL_SPECS: tuple[ModelSpec, ...] = (
         description="RTMDet Large",
         base_url="https://huggingface.co/bukuroo/RTMDet-ONNX/resolve/main/"
     ),
-    ModelSpec(
-        model_id="bytetrack-s",
-        implementation="bytetrack",
-        input_size=(608, 1088),
-        artifact_path="bytetrack/bytetrack_s_mot17.onnx",
-        aliases=("bytetrack-small",),
-        description="ByteTrack detector Small",
-    ),
-    ModelSpec(
-        model_id="bytetrack-m",
-        implementation="bytetrack",
-        input_size=(800, 1440),
-        artifact_path="bytetrack/bytetrack_m_mot17.onnx",
-        aliases=("bytetrack", "bytetrack-medium"),
-        description="ByteTrack detector Medium",
-    ),
-    ModelSpec(
-        model_id="bytetrack-l",
-        implementation="bytetrack",
-        input_size=(800, 1440),
-        artifact_path="bytetrack/bytetrack_l_mot17.onnx",
-        aliases=("bytetrack-large",),
-        description="ByteTrack detector Large",
-    ),
 )
 
 _MODEL_BY_ID: dict[str, ModelSpec] = {spec.model_id: spec for spec in _MODEL_SPECS}
@@ -166,7 +142,6 @@ for _spec in _MODEL_SPECS:
         _MODEL_ALIASES[_alias] = _spec.model_id
 
 _DEFAULT_ID_BY_IMPL = {
-    "bytetrack": "bytetrack-m",
     "rfdetr": "rfdetr-m",
     "rtmdet": "rtmdet-m",
     "yolox": "yolox-s",

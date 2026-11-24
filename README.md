@@ -90,9 +90,11 @@ TensorRT note:
 | Family | Year | License |
 | --- | ---: | --- |
 | RF-DETR | 2026 | Apache-2.0 |
-| ByteTrack Detector | 2022 | MIT |
 | RTMDet | 2022 | Apache-2.0 |
 | YOLOX | 2021 | Apache-2.0 |
+
+For stable IDs across frames, install `opendetect[tracking]` and pass a
+detector's boxes and scores to [ByteTracker](docs/getting-started/python.md#track-identities-across-frames).
 
 ## Documentation
 
