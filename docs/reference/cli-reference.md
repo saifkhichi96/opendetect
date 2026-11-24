@@ -10,11 +10,17 @@ opendetect --version
 
 ## `opendetect-infer`
 
-Run object detection on an image or video.
+Run detection on an image, video, or camera. Video and camera inputs also
+support identity tracking.
 
 Required input:
 
-- `--image PATH` or `--video PATH` (unless `--list-classes`)
+- `--image PATH`, `--video PATH`, or `--camera INDEX` (unless `--list-classes`)
+
+Tracking and preview:
+
+- `--tracker {none,bytetrack}` (default: `none`; ByteTrack requires the `tracking` extra)
+- `--preview` / `--no-preview` (preview enabled by default for camera inputs)
 
 Model selection:
 

@@ -1,16 +1,22 @@
 from __future__ import annotations
 
 import difflib
+import math
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import cv2
 import numpy as np
 
 from .download import download_model
 from .models import available_models, create_model, default_input_size
+from .models._viz import draw_box_with_label
 from .models.base import DetectorModel
 from .registry import ModelSpec, get_model_spec
 from .types import Detections, LoadedModelInfo
+
+if TYPE_CHECKING:
+    from .trackers import Tracker
 
 
 class Detector:
@@ -262,46 +268,110 @@ class Detector:
         *,
         output_path: str | Path,
         max_frames: int | None = None,
+        tracker: Tracker | None = None,
+        preview: bool = False,
     ) -> int:
-        video_path = Path(video_path)
-        output_path = Path(output_path)
-
-        cap = cv2.VideoCapture(str(video_path))
-        if not cap.isOpened():
-            raise RuntimeError(f"Unable to open video: {video_path}")
-
-        frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-        frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-        fps = cap.get(cv2.CAP_PROP_FPS)
-        if fps <= 0:
-            fps = 30.0
-
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        suffix = output_path.suffix.lower()
-        fourcc = cv2.VideoWriter_fourcc(*("MJPG" if suffix == ".avi" else "mp4v"))
-        writer = cv2.VideoWriter(
-            str(output_path), fourcc, fps, (frame_width, frame_height)
+        return self._infer_capture(
+            str(video_path), Path(output_path), max_frames, tracker, preview
         )
-        if not writer.isOpened():
-            cap.release()
-            raise RuntimeError(f"Unable to open video writer for: {output_path}")
 
+    def infer_camera(
+        self,
+        camera: int,
+        *,
+        output_path: str | Path | None = None,
+        max_frames: int | None = None,
+        tracker: Tracker | None = None,
+        preview: bool = True,
+    ) -> int:
+        """Run inference on an OpenCV camera device."""
+        output = Path(output_path) if output_path is not None else None
+        return self._infer_capture(camera, output, max_frames, tracker, preview)
+
+    def _infer_capture(self, source, output_path, max_frames, tracker, preview):
+        cap = cv2.VideoCapture(source)
+        writer = None
         frames_processed = 0
+        window = "OpenDetect"
+        window_open = False
         try:
-            while True:
-                if max_frames is not None and frames_processed >= max_frames:
-                    break
-
+            if not cap.isOpened():
+                kind = "camera" if isinstance(source, int) else "video"
+                raise RuntimeError(f"Unable to open {kind}: {source}")
+            if output_path is not None:
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+            while max_frames is None or frames_processed < max_frames:
                 ok, frame_bgr = cap.read()
                 if not ok:
+                    if frames_processed == 0 and isinstance(source, int):
+                        raise RuntimeError(f"No frames received from camera: {source}")
                     break
 
-                _, annotated = self.predict_and_annotate(frame_bgr, color="bgr")
-                writer.write(annotated)
+                if tracker is None:
+                    _, annotated = self.predict_and_annotate(frame_bgr, color="bgr")
+                else:
+                    detections = self.predict(frame_bgr, color="bgr")
+                    tracks = tracker.update(
+                        detections["xyxy"], detections["confidence"]
+                    )
+                    annotated = frame_bgr.copy()
+                    height, width = annotated.shape[:2]
+                    bounds = [width - 1, height - 1] * 2
+                    for track_id, box, score in tracks:
+                        x1, y1, x2, y2 = map(int, np.clip(np.rint(box), 0, bounds))
+                        # An odd multiplier permutes the 21-bit palette so IDs
+                        # get distinct bright colors instead of adjacent shades.
+                        color_code = track_id * 0x17A4AB
+                        color = tuple(
+                            96 + ((color_code >> shift) & 127) for shift in (0, 7, 14)
+                        )
+                        draw_box_with_label(
+                            annotated,
+                            (x1, y1),
+                            (x2, y2),
+                            color,
+                            f"ID {track_id} {score:.2f}",
+                        )
+                if output_path is not None:
+                    if writer is None:
+                        height, width = annotated.shape[:2]
+                        fps = cap.get(cv2.CAP_PROP_FPS)
+                        if not math.isfinite(fps) or fps <= 0:
+                            fps = 30.0
+                        codec = (
+                            "MJPG" if output_path.suffix.lower() == ".avi" else "mp4v"
+                        )
+                        writer = cv2.VideoWriter(
+                            str(output_path),
+                            cv2.VideoWriter_fourcc(*codec),
+                            fps,
+                            (width, height),
+                        )
+                        if not writer.isOpened():
+                            raise RuntimeError(
+                                f"Unable to open video writer for: {output_path}"
+                            )
+                    writer.write(annotated)
                 frames_processed += 1
+                if preview:
+                    cv2.imshow(window, annotated)
+                    window_open = True
+                    if (cv2.waitKey(1) & 0xFF) in (ord("q"), 27) or (
+                        cv2.getWindowProperty(window, cv2.WND_PROP_VISIBLE) == 0
+                    ):
+                        break
+        except KeyboardInterrupt:
+            if not isinstance(source, int) and not preview:
+                raise
         finally:
             cap.release()
-            writer.release()
+            if writer is not None:
+                writer.release()
+            if window_open:
+                try:
+                    cv2.destroyWindow(window)
+                except cv2.error:
+                    pass
 
         return frames_processed
 

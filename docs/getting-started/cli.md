@@ -42,6 +42,22 @@ opendetect-infer \
   --output output.mp4
 ```
 
+Live camera tracking:
+
+```bash
+pip install -e '.[tracking]'
+opendetect-infer --camera 0 --model-id yolox-s --tracker bytetrack
+```
+
+The preview opens by default for cameras. Press **Q** or **Esc** to stop. To
+save a clip, add `--output tracked.mp4`. For a headless capture, add
+`--no-preview` and use `--max-frames` to limit the run.
+
+To track a video file, use `--video input.mp4 --tracker bytetrack`. Add
+`--preview` to watch as it processes. Tracking defaults to the person class
+and a detection threshold of 0.1 so weak detections can maintain IDs. Use
+`--classes` or `--class-names` to select a different single class.
+
 Class discovery and filtering:
 
 ```bash
