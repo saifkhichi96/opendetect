@@ -28,7 +28,7 @@ def main() -> None:
     input_group.add_argument("--camera", type=int, help="OpenCV camera index, e.g. 0.")
     parser.add_argument(
         "--tracker",
-        choices=("none", "bytetrack"),
+        choices=("none", "greedy-iou", "iou", "bytetrack"),
         default="none",
         help="Associate detections across video or camera frames.",
     )
@@ -145,14 +145,14 @@ def main() -> None:
         parser.error("tracking and preview require --video or --camera")
 
     tracker = None
-    if args.tracker == "bytetrack" and not args.list_classes:
+    if args.tracker != "none" and not args.list_classes:
         try:
-            from opendetect.trackers import ByteTracker
+            from opendetect.trackers import ByteTracker, GreedyIoUTracker
         except ModuleNotFoundError as exc:
             if exc.name != "scipy":
                 raise
-            parser.error('ByteTrack requires SciPy. Install "opendetect[tracking]".')
-        tracker = ByteTracker()
+            parser.error('Tracking requires SciPy. Install "opendetect[tracking]".')
+        tracker = ByteTracker() if args.tracker == "bytetrack" else GreedyIoUTracker()
 
     detector = Detector(
         model=args.model_id or args.model_name,
@@ -163,7 +163,7 @@ def main() -> None:
         mixed_precision=args.mixed_precision,
         threshold=args.threshold
         if args.threshold is not None
-        else (0.1 if tracker else 0.3),
+        else (0.1 if args.tracker == "bytetrack" else 0.3),
         num_select=args.num_select,
         class_ids=None,
         auto_download=not args.no_download,
@@ -190,7 +190,7 @@ def main() -> None:
                 selected_ids = detector.resolve_class_ids_from_names(["person"])
             if len(set(selected_ids)) != 1:
                 parser.error(
-                    "ByteTrack requires a single class. Select one with --classes or --class-names."
+                    "Tracking requires a single class. Select one with --classes or --class-names."
                 )
         detector.set_class_filter(selected_ids if selected_ids else None)
     except ValueError as exc:

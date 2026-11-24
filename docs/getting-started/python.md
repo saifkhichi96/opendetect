@@ -69,6 +69,11 @@ for frame in frames:
 
 Use a low detector threshold so ByteTrack can use weak detections to continue existing tracks. Only high-confidence detections can start a track. Call `reset()` when reusing the tracker for a different stream. Custom trackers can implement the `opendetect.trackers.Tracker` interface.
 
+For one clearly visible subject, try `GreedyIoUTracker` from the same module.
+It predicts box centers using smoothed velocity and greedily matches the best
+remaining IoU pair. Both trackers accept the same box and score arrays and
+expose `update_with_indices()` for matching track results to detection rows.
+
 ## Runtime Controls
 
 ```python

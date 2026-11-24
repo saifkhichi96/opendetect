@@ -64,7 +64,8 @@ save a clip, add `--output tracked.mp4`. For a headless capture, add
 
 To track a video file, use `--video input.mp4 --tracker bytetrack`. Add
 `--preview` to watch as it processes. Tracking defaults to the person class
-and a detection threshold of 0.1 so weak detections can maintain IDs. Use
+and a detection threshold of 0.1 so weak detections can maintain IDs. For the
+simpler overlap tracker, use `--tracker greedy-iou` (`iou` is an alias). Use
 `--classes` or `--class-names` to select a different single class.
 
 Class discovery and filtering:

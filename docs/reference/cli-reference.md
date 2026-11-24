@@ -19,7 +19,7 @@ Required input:
 
 Tracking and preview:
 
-- `--tracker {none,bytetrack}` (default: `none`; ByteTrack requires the `tracking` extra)
+- `--tracker {none,greedy-iou,iou,bytetrack}` (default: `none`; trackers require the `tracking` extra; `iou` aliases `greedy-iou`)
 - `--preview` / `--no-preview` (preview enabled by default for camera inputs)
 
 Model selection:

@@ -2,5 +2,6 @@
 
 from .base import Track, Tracker
 from .bytetrack import ByteTracker
+from .greedy_iou import GreedyIoUTracker
 
-__all__ = ["ByteTracker", "Track", "Tracker"]
+__all__ = ["ByteTracker", "GreedyIoUTracker", "Track", "Tracker"]
