@@ -210,6 +210,29 @@ class Detector:
         image_rgb = self._to_rgb(image, color)
         return self._backend.predict_rgb_frame(image_rgb)
 
+    def predict_batch(self, images, *, color="bgr", batch_size=8):
+        """Detect a bounded image batch, falling back for fixed-batch exports."""
+        if batch_size < 1:
+            raise ValueError("batch_size must be positive")
+        results = []
+        backend = self._backend
+        from .models.rfdetr import RFDETRModel
+
+        if not isinstance(backend, RFDETRModel):
+            return [self.predict(image, color=color) for image in images]
+        dimension = backend.session.get_inputs()[0].shape[0]
+        if isinstance(dimension, int) and dimension > 0:
+            return [self.predict(image, color=color) for image in images]
+        for start in range(0, len(images), batch_size):
+            prepared = [
+                backend.preprocess_rgb_frame(self._to_rgb(image, color))
+                for image in images[start : start + batch_size]
+            ]
+            tensor = np.concatenate([item[0] for item in prepared])
+            sizes = np.concatenate([item[1] for item in prepared])
+            results.extend(backend.postprocess(backend.forward(tensor), sizes))
+        return results
+
     def annotate(
         self,
         image: np.ndarray,

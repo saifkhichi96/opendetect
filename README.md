@@ -68,6 +68,12 @@ opendetect-benchmark --model-id rfdetr-l --mode dummy --warmup 20 --iterations 2
 opendetect-models list
 ```
 
+### Image batches
+
+`detector.predict_batch(images, color="bgr", batch_size=8)` returns detections
+in input order. Dynamic RF-DETR exports run bounded batches. Fixed-batch-one
+exports and other backends use their existing per-image inference path.
+
 ## Runtime Support
 
 OpenDetect uses ONNX Runtime execution providers and selects the best available runtime automatically:
